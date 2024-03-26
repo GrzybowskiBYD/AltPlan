@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan ZSE stworzony przez @grzybowski_byd</title>
+    <meta name="color-scheme" content="dark light">
+
+    <!-- LOCAL -->
+    {#    <link rel="stylesheet" href="/static/CSS/theme.css">#}
+    <link rel="stylesheet" href="/static/CSS/header_footer.css">
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <link rel="stylesheet" href="/static/CSS/nav.css">
+    <link rel="stylesheet" href="/static/CSS/timetable.css">
+    <link rel="stylesheet" href="/static/CSS/temporary.css">
+    <script src="/static/JS/load_cookies.js"></script>
+    {#    <script src="/static/JS/load_cookies.js"></script>#}
+
+    <!-- REMOTE -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div id="main">
+    {% include 'nav.html' %}
+    <div id="right">
+        <header>
+            <div id="header_left">
+                <div id="subs-date">
+                    <p>Zastępstwa na:</p>
+                    <p>{{ date }}</p>
+                </div>
+            </div>
+            <h1>{{ current_class }}</h1>
+            <div id="header_right">
+                <div id="lucky-number">
+                    <p>Szczęśliwy numerek:</p>
+                    <p>{{ lucky_numbers }}</p>
+                </div>
+                <a id="settings-button" href="/ustawienia?{{ url }}"><i class="material-icons">settings</i></a>
+            </div>
+        </header>
+        <div id="content">
+            {% if motd %}
+                <div id="motd-info">
+                    Są informacje dodatkowe w <a href="zastepstwa">zastępstwach</a>!
+                </div>{% endif %}
+            <table>
+                <tr>
+                    <th>Nr</th>
+                    <th>Godz</th>
+                    <th>Poniedziałek</th>
+                    <th>Wtorek</th>
+                    <th>Środa</th>
+                    <th>Czwartek</th>
+                    <th>Piątek</th>
+                </tr>
+                {%- for row in plan %}
+                    <tr>
+                        {%- for groups in row -%}
+                            {%- if loop.index <= 2 %}
+                                <td>
+                                    <p>{{ groups[0]["name"] }}</p>
+                                </td>
+                            {%- else %}
+                                <td class="l">
+                                    {%- for group in groups %}
+                                        <div class="gr{{ group["group"] }}">
+                                            {%- if group["name"] is not none %}
+                                                <p>{{ group["name"] }}</p>
+                                            {%- endif -%}
+                                            {%- if group["class"]["name"] is not none %}
+                                                <a {{ ("href=" + group["class"]["url"]) if group["class"]["url"] is not none else "" }}>{{ group["class"]["name"] }}</a>
+                                            {%- endif -%}
+                                            {%- if group["teacher"]["name"] is not none %}
+                                                <a {{ ("href=" + group["teacher"]["url"]) if group["teacher"]["url"] is not none else "" }}>{{ group["teacher"]["name"] }}</a>
+                                            {%- endif -%}
+                                            {%- if group["classroom"]["name"] is not none %}
+                                                <a {{ ("href=" + group["classroom"]["url"]) if group["classroom"]["url"] is not none else "" }}>{{ group["classroom"]["name"] }}</a>
+                                            {%- endif %}
+                                        </div>
+                                    {%- endfor %}
+                                </td>
+                            {%- endif -%}
+                        {%- endfor %}
+                    </tr>
+                {%- endfor %}
+            </table>
+            {% include "footer.html" %}
+        </div>
+    </div>
+    <script>
+    </script>
+</div>
+<script src="/static/JS/transition.js"></script>
+<script>
+    let repl = JSON.parse('{{replacements|tojson}}');
+    const leave_old = true;
+    ls = document.getElementsByClassName("l");
+    for (const sub of repl) {
+        set_subs(sub[0], sub[1], sub[2], sub[3])
+    }
+
+    if (!footer_warning) document.querySelector("#subs-info").style.display = "none";
+
+    function set_subs(row, column, text, group) {
+        let temp;
+        const group_obj = ls[5 * row + column].querySelector(`.gr${group}`);
+
+        if (!group_obj) return 0;
+        if (leave_old) {
+            if (group !== -1) {
+                temp = `<s>${group_obj.innerHTML}</s><div class="repl">${text}</div>`;
+            } else {
+                temp = `<s>${ls[5 * row + column].innerHTML}</s><div class="repl">${text}</div>`;
+            }
+        } else {
+            temp = `<div class="repl">${text}</div>`;
+        }
+        group_obj.innerHTML = temp;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan ZSE stworzony przez @grzybowski_byd</title>
+
+    <!-- LOCAL -->
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <link rel="stylesheet" href="/static/CSS/nav.css">
+    <link rel="stylesheet" href="/static/CSS/header_footer.css">
+    <link rel="stylesheet" href="/static/CSS/temporary.css">
+    <link rel="stylesheet" href="/static/CSS/substitutions.css">
+    <script src="/static/JS/load_cookies.js"></script>
+
+    <!-- REMOTE -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+</head>
+<body>
+<div id="main">
+    {% include 'nav.html' %}
+    <div id="right">
+        <header><h1>Zastępstwa</h1></header>
+        <div id="content">
+            <div id="motd">
+                {% for repl in replacements[0] %}
+                    <p>{{ repl }}</p>
+                {% endfor %}
+            </div>
+            {% for repl in replacements[1] %}
+                <table>
+                    <tr>
+                        <th colspan="4">{{ repl[0] }}</th>
+                    </tr>
+                    {% for tr in repl[1] %}
+                        <tr>
+                            {% for td in tr %}
+                                <td>{{ td }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endfor %}
+            {% include "footer.html" %}
+        </div>
+    </div>
+    <script src="/static/JS/transition.js"></script>
+</div>
+</body>
+</html>

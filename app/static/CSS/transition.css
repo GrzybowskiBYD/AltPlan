@@ -1,0 +1,3 @@
+* {
+    transition: border-color .5s, background-color .5s, color .5s, font-weight .5s, font-variation-settings .5s, transform .5s, filter .3s;
+}

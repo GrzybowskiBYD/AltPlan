@@ -1,0 +1,93 @@
+header {
+    background-color: var(--main-color);
+    background-image: var(--background);
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+}
+
+header * {
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin: auto;
+}
+
+#header_left, #header_right {
+    display: flex;
+}
+
+#header_left {
+    margin-left: 1rem;
+}
+
+#header_right {
+    margin-right: 0;
+}
+
+#settings-button {
+    margin: auto 0.5rem;
+}
+
+.material-icons {
+    color: white;
+    font-size: 36px !important;
+}
+
+.material-icons:hover {
+    transform: rotate(360deg);
+}
+
+#subs-date {
+    text-align: center;
+    font-weight: bold;
+    font-variation-settings: "wght" 700;
+    font-size: 30px;
+    margin: auto .5rem;
+}
+
+#subs-date *:first-child {
+    font-weight: bold;
+    font-variation-settings: "wght" 200;
+    font-size: 20px;
+}
+
+#lucky-number {
+    text-align: center;
+    font-weight: bold;
+    font-variation-settings: "wght" 700;
+    font-size: 40px;
+    margin: auto .5rem;
+    line-height: normal;
+    width: 200px;
+}
+
+#lucky-number *:first-child {
+    margin: auto;
+    font-weight: bold;
+    font-variation-settings: "wght" 200;
+    font-size: 15px;
+}
+
+footer div {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+footer {
+    color: rgb(127, 127, 127);
+    margin: 1rem 0 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+.footer-date {
+    width: 20rem;
+    display: flex;
+    justify-content: space-between;
+}

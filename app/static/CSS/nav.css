@@ -1,0 +1,60 @@
+#nav {
+    display: flex;
+    max-width: 13rem;
+    min-width: 7rem;
+    flex-direction: column;
+    background-color: var(--main-color);
+    color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    -webkit-box-shadow: inset -6px 0 12px 0 rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: inset -6px 0 12px 0 rgba(0, 0, 0, 0.7);
+    box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.7);
+    z-index: 2;
+}
+
+#nav a {
+    color: white;
+}
+
+#logo-div {
+    display: flex;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#nav h3 {
+    padding-left: 1rem;
+    margin: 0;
+    position: sticky;
+    top: 4.25rem;
+    background-color: var(--main-color);
+}
+
+#subs-link {
+    position: sticky;
+    top: 0;
+    background-color: var(--main-color);
+}
+
+#subs-line {
+    background-color: var(--main-color);
+    height: 0.25rem;
+    width: 11rem;
+    margin: 0 auto;
+    border-radius: 10px;
+    filter: brightness(50%);
+}
+
+#logo {
+    width: 10rem;
+    margin: 1rem auto -1.5rem auto;
+    z-index: 2;
+    cursor: pointer;
+}

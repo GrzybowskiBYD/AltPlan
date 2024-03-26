@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ustawienia - Plan ZSE</title>
+
+    <!-- LOCAL -->
+    <link href="/static/CSS/settings.css" rel="stylesheet">
+    <link href="/static/CSS/mobile.css" rel="stylesheet">
+    <script src="/static/JS/load_cookies.js"></script>
+
+
+    <!-- REMOTE -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
+    <meta charset="UTF-8">
+    <title>Panel</title>
+    <script>
+        function submit() {
+            let password = document.getElementById("password").value;
+            (async () => {
+                const rawResponse = await fetch(window.name, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({"password": password})
+                });
+                await rawResponse;
+                window.location.href = "/panel";
+            })();
+        }
+    </script>
+</head>
+<body>
+<div id="main">
+    <h1>Zaloguj się do panelu</h1>
+    <div id="settings">
+        <div><label>Podaj hasło: <input id="password" type="password" name="password"/></label></div>
+        <input type="submit" value="Zaloguj" id="save-exit" onclick="submit()">
+        <div><span style="color: red">{{ info }}</span></div>
+    </div>
+</div>
+</body>
+</html>

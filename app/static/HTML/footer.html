@@ -1,0 +1,22 @@
+<footer>
+    <div>
+        {% if info %}
+        <div class="footer-date">
+            <p style="text-align: left">Wprowadzenie planu: </p>
+            <p style="text-align: right">{{ info[0][0] }}</p>
+        </div>
+        {% if info[0][1] %}
+        <div class="footer-date">
+            <p style="text-align: left">Wygaśnięcie planu: </p>
+            <p style="text-align: right">{{ info[0][1] }}</p>
+        </div>
+        {% endif %}
+        <p>{{ info[1] }}</p>
+        {% endif %}
+        <div style="margin-top: 1rem">
+            <p> &copy; Marcin Grzybowski | Wszelkie prawa zastrzeżone</p>
+            <p id="subs-info"><b>ZASTĘPSTWA NANIESIONE NA PLAN MOGĄ ZAWIERAĆ BŁĘDY, ADMINISTRATOR ZALECA SPRAWDZENIE ZASTĘPSTW "ANALOGOWYCH"!</b></p>
+            {#<p id="release-info"><b>Wersja poglądowa, wygląd i działanie strony podlega zmianom</b></p>#}
+        </div>
+    </div>
+</footer>

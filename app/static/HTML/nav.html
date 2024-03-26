@@ -1,0 +1,27 @@
+<div id="nav">
+    <div id="logo-div" onclick='location.href = "basic/{{ url }}"'>
+        <img alt="Logo ZSE" id="logo" src="/static/media/logo.png">
+    </div>
+    <div id="subs-link">
+        <h2><a href="../zastepstwa">Zastępstwa</a></h2>
+        <div id="subs-line"></div>
+    </div>
+    <h3>Oddziały:</h3>
+    <ul>
+        {%- for temp in parse_classes %}
+        <li><a href='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</a></li>
+        {%- endfor %}
+    </ul>
+    <h3>Nauczyciele:</h3>
+    <ul>
+        {%- for temp in parse_teachers %}
+        <li><a href='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</a></li>
+        {%- endfor %}
+    </ul>
+    <h3>Sale:</h3>
+    <ul>
+        {%- for temp in parse_classrooms %}
+        <li><a href='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</a></li>
+        {%- endfor %}
+    </ul>
+</div>
