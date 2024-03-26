@@ -26,8 +26,6 @@ class Backend:
         self.subs_url = "https://zastepstwa.zse.bydgoszcz.pl/"
         self.hash_url = "https://zastepstwa.zse.bydgoszcz.pl/"
 
-        self.check_time = 1
-
         self.class_cache = {}
         self.substitutions_html = ""
 
