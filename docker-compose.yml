@@ -2,4 +2,4 @@ services:
     web:
         build: .
         ports:
-            - "80:80"
+            - "${BIND_ADDRESS}:${HTTP_PORT}:80"
