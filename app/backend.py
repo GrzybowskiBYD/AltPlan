@@ -26,23 +26,20 @@ class Backend:
         self.subs_url = "https://zastepstwa.zse.bydgoszcz.pl/"
         self.hash_url = "https://zastepstwa.zse.bydgoszcz.pl/"
 
-        self.check_time = 300
+        self.check_time = 1
 
         self.class_cache = {}
         self.substitutions_html = ""
 
         self.refresh()
         self.subs_hash_old = self.subs_hash
-        t = threading.Thread(target=self.heartbeat, daemon=True)
-        t.start()
 
     def heartbeat(self):
-        while True:
-            temp_hash = self.subs_hash
-            if temp_hash != self.subs_hash_old:
-                self.subs_hash_old = temp_hash
-                self.refresh()
-            time.sleep(self.check_time)
+        temp_hash = self.subs_hash
+        if temp_hash != self.subs_hash_old:
+            print("changed!")
+            self.subs_hash_old = temp_hash
+            self.refresh()
 
     @property
     def subs_hash(self):
@@ -315,4 +312,3 @@ def get_themes():
 
 if __name__ == "__main__":
     zs = Backend()
-    threading.Timer(3, zs.heartbeat).start()

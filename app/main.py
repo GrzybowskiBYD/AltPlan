@@ -71,6 +71,12 @@ def refresh():
     return redirect(f"/m/{suffix}" if "/m" in request.path else f"/{suffix}")
 
 
+@app.route("/check_hash")
+def check_hash():
+    zs.heartbeat()
+    return redirect("/", 301)
+
+
 @app.route("/ustawienia", methods=["GET", "POST"])
 def settings(file="settings.html"):
     suffix = [x for x in request.args.keys()][0] if len(request.args) > 0 else None
