@@ -41,7 +41,7 @@ th:first-child {
     border-radius: 0.8rem 0.8rem 0 0;
 }
 
-p {
+#motd p {
     color: var(--negative);
     margin-left: 3rem;
     margin-bottom: 0.3rem;
