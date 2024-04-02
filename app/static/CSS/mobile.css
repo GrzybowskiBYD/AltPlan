@@ -161,15 +161,12 @@ button {
 .ustawienia {
     padding: 0.3em;
 }
-/*p {*/
-/*    margin: 0;*/
-/*}*/
 
 a[href] {
     color: var(--main-color);
 }
 
-.gr1-2, .gr2-2, .gr1-3, .gr2-3 .gr3-3, .gr1-wf, .gr2-wf, .gr1-r{
+.gr1-2, .gr2-2, .gr1-3, .gr2-3, .gr3-3, .gr1-wf, .gr2-wf, .gr1-r{
     display: none;
 }
 #settings-button {
