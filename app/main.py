@@ -61,7 +61,7 @@ def mobile(class_url=None, file="mobile.html"):
 @app.route("/basic")
 @app.route("/basic/")
 @app.route("/basic/<string:class_url>")
-def basic(class_url, file="basic.html"):
+def basic(class_url=None, file="basic.html"):
     if class_url:
         return send_response(class_url[0], class_url[1:], file, repl=class_url[0] == "o")
     return redirect("/basic/o1")
