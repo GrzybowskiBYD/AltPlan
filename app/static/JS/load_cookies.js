@@ -56,6 +56,11 @@ function refresh_colors() {
         r.style.setProperty("--positive", "rgb(0, 0, 0)");
         r.style.setProperty("--negative", "rgb(255, 255, 255)");
         r.style.setProperty("--theme-wght", 300);
+        let meta = document.createElement('meta');
+        meta.name = "theme-color";
+        meta.content = color_scheme;
+        meta.media = "(prefers-color-scheme: dark)";
+        document.getElementsByTagName('head')[0].appendChild(meta);
     }
     else {
         r.style.setProperty("--main-color", color_scheme);
@@ -63,6 +68,11 @@ function refresh_colors() {
         r.style.setProperty("--positive", "rgb(255, 255, 255)");
         r.style.setProperty("--negative", "rgb(0, 0, 0)");
         r.style.setProperty("--theme-wght", 700);
+        let meta = document.createElement('meta');
+        meta.name = "theme-color";
+        meta.content = color_scheme;
+        meta.media = "(prefers-color-scheme: light)";
+        document.getElementsByTagName('head')[0].appendChild(meta);
     }
 }
 
