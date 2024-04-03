@@ -304,6 +304,7 @@ def class_obj(name=None, tn=None, tu=None, cn=None, cu=None, group=None, ctn=Non
 
 def get_themes():
     if not os.path.exists("conf/themes.txt"):
+        os.makedirs(os.path.dirname("conf/"), exist_ok=True)
         shutil.copy("static/media/themes.txt", "conf/")
     return [code.strip() for code in open("conf/themes.txt", "r").readlines()]
 
