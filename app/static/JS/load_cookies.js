@@ -2,9 +2,6 @@ const r = document.querySelector(':root');
 let darkMatchMedia = window.matchMedia("(prefers-color-scheme: dark)");
 let dark = darkMatchMedia.matches;
 const logo = document.getElementById("logo");
-const getCookieValue = (cookieObj, name) => (
-    cookieObj.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
-)
 
 c = document.cookie;
 let color_scheme = localStorage.getItem("color_scheme");
@@ -37,9 +34,6 @@ function logo_click() {
 }
 
 function refresh_colors() {
-//    const c = document.cookie;
-//    color_scheme = getCookieValue(c, "color_scheme");
-//    preffered_theme = getCookieValue(c, "theme");
     color_scheme = localStorage.getItem("color_scheme");
     preffered_theme = localStorage.getItem("theme");
     background = localStorage.getItem("background");
