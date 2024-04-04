@@ -63,10 +63,6 @@ a, p {
     height: 100%;
 }
 
-/*p {*/
-/*    margin: 0;*/
-/*}*/
-
 #weekday{
     display: flex;
     background-color: var(--main-color);
