@@ -10,7 +10,13 @@
     <!-- LOCAL -->
     <link href="/static/CSS/mobile.css" rel="stylesheet">
     <script src="/static/JS/load_cookies.js"></script>
-
+    {% if hide_mobile_groups %}
+    <style>
+        .gr1-2, .gr2-2, .gr1-3, .gr2-3, .gr3-3, .gr1-wf, .gr2-wf, .gr1-r{
+            display: none;
+        }
+    </style>
+    {% endif %}
     <!-- REMOTE -->
     <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

@@ -38,7 +38,8 @@ def send_response(prefix, class_url, file, repl=False):
                                          date=zs.date.strftime("%d.%m.%Y"),
                                          lucky_numbers=zs.get_lucky_number(),
                                          info=zs.info,
-                                         motd=len(zs.get_html_subs()[0]) > 1))
+                                         motd=len(zs.get_html_subs()[0]) > 1,
+                                         hide_mobile_groups=prefix == "o"))
 
 
 @app.route("/")

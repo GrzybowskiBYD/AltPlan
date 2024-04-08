@@ -187,9 +187,6 @@ a[href] {
     color: var(--main-color);
 }
 
-.gr1-2, .gr2-2, .gr1-3, .gr2-3, .gr3-3, .gr1-wf, .gr2-wf, .gr1-r{
-    display: none;
-}
 .material-icons {
     color: white;
     font-size: 36px !important;
