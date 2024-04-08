@@ -18,26 +18,31 @@
 </head>
 <body>
 <div id="main">
-    <a id="settings-button" href="/ustawienia?m/{{ url }}"><i class="material-icons">settings</i></a>
-    <form>
-        <label hidden="hidden" for="plan_select">Plan: </label>
-        <select name="plan" id="plan_select" onchange="window.location.replace(this.form.plan.value)">
-            <option value="" disabled selected>{{ current_class }}</option>
-            <optgroup label="Oddziały: ">
-                {% for temp in parse_classes %}
-                    <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-            </optgroup>
-            <optgroup label="Nauczyciele: ">
-                {% for temp in parse_teachers %}
-                    <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-            </optgroup>
-            <optgroup label="Sale: ">
-                {% for temp in parse_classrooms %}
-                    <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-            </optgroup>
-        </select>
+    <header>
+        <div id="header">
+            <a id="settings-button" href="/ustawienia?m/{{ url }}"><i class="material-icons">settings</i></a>
+            <form>
+                <label hidden="hidden" for="plan_select">Plan: </label>
+                <select name="plan" id="plan_select" onchange="window.location.replace(this.form.plan.value)">
+                    <option id="class_test" value="" disabled selected>{{ current_class }}</option>
+                    <optgroup label="Oddziały: ">
+                        {% for temp in parse_classes %}
+                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                    </optgroup>
+                    <optgroup label="Nauczyciele: ">
+                        {% for temp in parse_teachers %}
+                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                    </optgroup>
+                    <optgroup label="Sale: ">
+                        {% for temp in parse_classrooms %}
+                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                    </optgroup>
+                </select>
 
-    </form>
+            </form>
+
+        </div>
+    </header>
     <div id="days">
         {%- for i in range(5) %}
             <div class="day">
