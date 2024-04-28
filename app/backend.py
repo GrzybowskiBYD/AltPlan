@@ -218,10 +218,9 @@ class Backend:
         tt.append(row)
         if not self.info:
             raw_text = bs.find(attrs={"align": "left"}).text.strip()
-            dates = re.findall(r"\d\d.\d\d.\d\d\d\d r.", raw_text)
-            index = raw_text.find(dates[1]) + len(dates[1])
-            self.info = [dates, raw_text[index:].strip("( )[]-").capitalize()]
-
+            dates = re.findall(r"\d\d.\d\d.\d\d\d\d", raw_text)
+            details = raw_text[raw_text.find("-")+1:].strip().capitalize() if raw_text.find("-") != -1 else ""
+            self.info = [dates, details]
         self.class_cache.update({UrlObj(url).id: tt})
 
     def get_lucky_number(self):
