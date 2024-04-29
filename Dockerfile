@@ -12,7 +12,7 @@ COPY requirements.txt requirements.txt
 
 RUN DEBIAN_FRONTEND=noninteractive pip -V
 
-RUN DEBIAN_FRONTEND=noninteractive pip install -r requirements.txt
+RUN DEBIAN_FRONTEND=noninteractive pip install --break-system-packages -r requirements.txt
 
 EXPOSE 80
 
