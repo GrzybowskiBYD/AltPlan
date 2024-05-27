@@ -80,13 +80,17 @@ class Backend:
 
     def __cache_weekday(self):
         self.weekday = -1
-        r = urllib.request.urlopen("https://zastepstwa.zse.bydgoszcz.pl/")
+        r = urllib.request.urlopen(self.subs_url)
         bs = bs4.BeautifulSoup(r, "html.parser")
-        for i, x in enumerate(self.weekdays):
-            if x in bs.find("nobr").text.split(" ")[4]:
-                self.weekday = i
-        if self.weekday == -1:
-            raise ValueError()
+        regex = re.findall(r"\d\d.\d\d.\d\d\d\d", bs.find("nobr").text)
+        if not regex:
+            print(f"WARNING! Date not found, setting to 0 ({self.weekdays[0]})")
+            self.weekday = 0
+            return
+        first = datetime.datetime.strptime(regex[0], "%d.%m.%Y")
+        last = datetime.datetime.strptime(regex[-1], "%d.%m.%Y")
+        now = datetime.datetime.now()
+        self.weekday = clamp(now, first, last).weekday()
 
     def get_subs(self, url):
         url = UrlObj(url).id
@@ -103,17 +107,17 @@ class Backend:
             texts = [td.text.strip() for td in tds]
             if len(texts) < 4 or "opis" in texts or not "".join(texts):
                 continue
-            r = re.search(class_name + r"(?:\((\d)\))? - (.*)", texts[1])
-            if r:
+            regex = re.search(class_name + r"(?:\((\d)\))? - (.*)", texts[1])
+            if regex:
                 text = []
                 text.append(texts[2]) if texts[2] else None
                 text.append(f"({texts[3]})") if texts[3] else None
-                text.append(r.group(2))
+                text.append(regex.group(2))
                 x = " ".join(text)
                 results.append((int(tds[0].text),
                                 self.weekday,
                                 x,
-                                int(r.group(1)) if r.group(1) else 0,
+                                int(regex.group(1)) if regex.group(1) else 0,
                                 ))
         return results
 
@@ -307,6 +311,14 @@ def get_themes():
         # os.makedirs(os.path.dirname(".conf/"), exist_ok=True)
         # shutil.copy("static/media/themes.txt", ".conf/")
     return [code.strip() for code in open("conf/themes.txt", "r").readlines()]
+
+
+def clamp(value, start, end):
+    if end < value:
+        return end
+    if value < start:
+        return start
+    return value
 
 
 if __name__ == "__main__":
