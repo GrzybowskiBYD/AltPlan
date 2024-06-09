@@ -102,23 +102,38 @@ class Backend:
         class_name = class_name.split(" ")[0]
         class_name = f"{class_name[0]} {class_name[1:]}"
         results = []
+        current_teacher = None
         for tr in trs:
             tds = tr.find_all("td")
             texts = [td.text.strip() for td in tds]
-            if len(texts) < 4 or "opis" in texts or not "".join(texts):
+            if len(texts) < 4:
+                current_teacher = tr.text.strip()
                 continue
-            regex = re.search(class_name + r"(?:\((\d)\))? - (.*)", texts[1])
+            if "opis" in texts or not "".join(texts):
+                continue
+            regex = re.search(class_name + r"(?:\((\d)\))?(?: - (.*))?", texts[1])
             if regex:
-                text = []
-                text.append(texts[2]) if texts[2] else None
-                text.append(f"({texts[3]})") if texts[3] else None
-                text.append(regex.group(2))
-                x = " ".join(text)
-                results.append((int(tds[0].text),
-                                self.weekday,
-                                x,
-                                int(regex.group(1)) if regex.group(1) else 0,
-                                ))
+                group = regex.group(1)
+                nr = int(tds[0].text)
+
+                regex_date = re.search(r"(\d?\d.\d?\d.)(\d\d)?(\d\d)", current_teacher)
+                # date in format DD.MM.YYYY present in the substitution name field
+                if regex_date:
+                    normalized_date = regex_date[0] if regex_date.group(2) else f"{regex_date.group(1)}{datetime.datetime.now().year//100}{regex_date.group(3)}"
+                    weekday = datetime.datetime.strptime(normalized_date, "%d.%m.%Y").weekday()
+                # not present, default to global weekday value
+                else:
+                    weekday = self.weekday
+
+                teacher = texts[2] if texts[2] else ""
+                comments = texts[3] if texts[3] else ""
+                classroom = regex.group(2) if regex.group(2) else ""
+
+                info = f"{teacher} {f"({comments}) " if comments else ""}{classroom}".strip()
+
+                group_nr = int(group) if group else 0
+
+                results.append((nr, weekday, info, group_nr))
         return results
 
     def get_html_subs(self):
@@ -223,7 +238,7 @@ class Backend:
         if not self.info:
             raw_text = bs.find(attrs={"align": "left"}).text.strip()
             dates = re.findall(r"\d\d.\d\d.\d\d\d\d", raw_text)
-            details = raw_text[raw_text.find("-")+1:].strip().capitalize() if raw_text.find("-") != -1 else ""
+            details = raw_text[raw_text.find("-") + 1:].strip().capitalize() if raw_text.find("-") != -1 else ""
             self.info = [dates, details]
         self.class_cache.update({UrlObj(url).id: tt})
 
