@@ -29,6 +29,7 @@ a {
 }
 
 #motd-info {
+    color: var(--negative);
     font-size: 1.3rem;
     margin-bottom: 1rem;
     text-align: center;
