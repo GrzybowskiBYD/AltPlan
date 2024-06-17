@@ -7,6 +7,8 @@ import datetime
 import time
 import urllib.request
 
+import pytz
+
 from URLNormalize import UrlObj
 
 import bs4
@@ -15,7 +17,7 @@ import re
 
 class Backend:
     def __init__(self):
-        self.change_date = datetime.datetime.now()
+        self.change_date = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
         self.nav_list = None
         self.weekdays = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"]
         self.weekday = -1
@@ -37,7 +39,7 @@ class Backend:
         temp_hash = self.subs_hash
         if temp_hash != self.subs_hash_old:
             print("changed!")
-            self.change_date = datetime.datetime.now()
+            self.change_date = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
             self.subs_hash_old = temp_hash
             self.refresh()
 
@@ -91,7 +93,7 @@ class Backend:
             return
         first = datetime.datetime.strptime(regex[0], "%d.%m.%Y")
         last = datetime.datetime.strptime(regex[-1], "%d.%m.%Y")
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
         self.weekday = clamp(now, first, last).weekday()
 
     def get_subs(self, url):
