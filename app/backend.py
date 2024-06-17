@@ -15,6 +15,7 @@ import re
 
 class Backend:
     def __init__(self):
+        self.change_date = datetime.datetime.now()
         self.nav_list = None
         self.weekdays = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"]
         self.weekday = -1
@@ -36,6 +37,7 @@ class Backend:
         temp_hash = self.subs_hash
         if temp_hash != self.subs_hash_old:
             print("changed!")
+            self.change_date = datetime.datetime.now()
             self.subs_hash_old = temp_hash
             self.refresh()
 
