@@ -94,7 +94,7 @@ class Backend:
         first = datetime.datetime.strptime(regex[0], "%d.%m.%Y")
         last = datetime.datetime.strptime(regex[-1], "%d.%m.%Y")
         now = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
-        self.weekday = clamp(now, first, last).weekday()
+        self.weekday = clamp_datetime(now, first, last).weekday()
 
     def get_subs(self, url):
         url = UrlObj(url).id
@@ -330,6 +330,10 @@ def get_themes():
         # os.makedirs(os.path.dirname(".conf/"), exist_ok=True)
         # shutil.copy("static/media/themes.txt", ".conf/")
     return [code.strip() for code in open("conf/themes.txt", "r").readlines()]
+
+
+def clamp_datetime(value, start, end, tz=pytz.timezone("Europe/Warsaw")):
+    return clamp(value.replace(tzinfo=tz), start.replace(tzinfo=tz), end.replace(tzinfo=tz))
 
 
 def clamp(value, start, end):
