@@ -35,11 +35,11 @@ def send_response(prefix, class_url, file, repl=False):
                                          replacements=replacements,
                                          url=f"{prefix}{class_url}",
                                          weekday=zs.weekday,
-                                         date=zs.date.strftime("%d.%m.%Y"),
                                          lucky_numbers=zs.get_lucky_number(),
                                          info=zs.info,
                                          motd=len(zs.get_html_subs()[0]) > 1,
-                                         hide_mobile_groups=prefix == "o"))
+                                         hide_mobile_groups=prefix == "o",
+                                         change_date=zs.change_date))
 
 
 @app.route("/")

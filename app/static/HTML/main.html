@@ -29,8 +29,9 @@
         <header>
             <div id="header_left">
                 <div id="subs-date">
-                    <p>Zastępstwa na:</p>
-                    <p>{{ date }}</p>
+                    <p>Ostatnia aktualizacja:</p>
+                    <p>{{ change_date.strftime("%H:%M") }}</p>
+                    <p>({{ change_date.strftime("%d.%m.%Y") }})</p>
                 </div>
             </div>
             <h1>{{ current_class }}</h1>

@@ -42,16 +42,16 @@ header h1 {
 
 #subs-date {
     text-align: center;
-    font-weight: bold;
-    font-variation-settings: "wght" 700;
-    font-size: 30px;
     margin: auto .5rem;
-}
-
-#subs-date *:first-child {
     font-weight: bold;
     font-variation-settings: "wght" 200;
-    font-size: 20px;
+    font-size: 18px;
+}
+
+#subs-date *:nth-child(2){
+    font-weight: bold;
+    font-variation-settings: "wght" 700;
+    font-size: 25px;
 }
 
 #lucky-number {
