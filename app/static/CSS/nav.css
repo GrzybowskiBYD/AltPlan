@@ -16,6 +16,11 @@
 
 #nav a {
     color: white;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-wrap: nowrap;
+    display: inline-block;
+    max-width: 100%;
 }
 
 #logo-div {
