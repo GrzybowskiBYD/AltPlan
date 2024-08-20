@@ -325,7 +325,7 @@ def class_obj(name=None, tn=None, tu=None, cn=None, cu=None, group=None, ctn=Non
 
 
 def get_themes():
-    if not os.path.exists(".conf/themes.txt"):
+    if not os.path.exists("/app/conf/themes.txt"):
         return ["#9a3d24", "#4abfec", "#643caf", "#4db234", "#c5a217"]
         # os.makedirs(os.path.dirname(".conf/"), exist_ok=True)
         # shutil.copy("static/media/themes.txt", ".conf/")
