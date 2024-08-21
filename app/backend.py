@@ -18,10 +18,10 @@ import re
 class Backend:
     def __init__(self):
         self.change_date = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
-        self.nav_list = None
+        self.nav_list = {"classes": {}, "teachers": {}, "classrooms": {}}
         self.weekdays = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek"]
         self.weekday = -1
-        self.date = None
+        self.date = datetime.datetime
 
         self.info = ""
 
@@ -96,7 +96,7 @@ class Backend:
         now = datetime.datetime.now(pytz.timezone('Europe/Warsaw'))
         self.weekday = clamp_datetime(now, first, last).weekday()
 
-    def get_subs(self, url):
+    def get_class_subs(self, url):
         url = UrlObj(url).id
         if url not in self.nav_list["classes"]:
             return []
@@ -160,14 +160,14 @@ class Backend:
         results.update({key: temp})
         return text.strip().split("\n"), results
 
-    def get_class_plan(self, url):
+    def get_class_timetable(self, url):
         url = UrlObj(url).id
         if url in self.class_cache.keys():
             return self.class_cache[url]
-        self.__cache_class_plan(url)
+        self.__cache_class_timetable(url)
         return self.class_cache[url]
 
-    def __cache_class_plan(self, url):
+    def __cache_class_timetable(self, url):
         r = urllib.request.urlopen(UrlObj(url))
         bs = bs4.BeautifulSoup(r, "html.parser")
         table = bs.find('table', attrs={'class': 'tabela'})
@@ -261,7 +261,7 @@ class Backend:
         final = []
         teacher = ""
         for u in self.nav_list["classes"].keys():
-            p = self.get_class_plan(u)
+            p = self.get_class_timetable(u)
             while len(p) > len(final):
                 temp = p[len(final)][0:2]
                 [temp.append([]) for _ in range(5)]

@@ -15,13 +15,14 @@ zs = Backend()
 app.config['UPLOAD_FOLDER'] = "conf/backgrounds"
 
 
-def send_response(prefix, class_url, file, repl=False):
+def send_response(prefix, timetable_id, file, repl=False):
     temp = zs.nav_list
-    url = f"plany/{prefix}{class_url}.html"
-    plan = zs.get_class_plan(url)
+    # Todo apply UrlObj from URLNormalize
+    url = f"plany/{prefix}{timetable_id}.html"
+    plan = zs.get_class_timetable(url)
     if repl:
         try:
-            replacements = zs.get_subs(url)
+            replacements = zs.get_class_subs(url)
         except ValueError:
             replacements = ""
     else:
@@ -33,7 +34,8 @@ def send_response(prefix, class_url, file, repl=False):
                                          plan=plan,
                                          current_class=zs.url_to_name(url),
                                          replacements=replacements,
-                                         url=f"{prefix}{class_url}",
+                                         # Todo apply UrlObj from URLNormalize
+                                         url=f"{prefix}{timetable_id}",
                                          weekday=zs.weekday,
                                          lucky_numbers=zs.get_lucky_number(),
                                          info=zs.info,
