@@ -28,7 +28,18 @@ class UrlObj(str):
                 else:
                     return f"{self.url_prefix}/plany/{url}.html"
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, UrlObj):
+            return TypeError(f"Cannot compare UrlObj to {type(other)}")
+        return self.id == other.id and self.url_prefix == other.url_prefix
+
+    def __hash__(self):
+        return hash(self.id)
+
     def __str__(self):
+        return self.url
+
+    def __repr__(self):
         return self.url
 
 
