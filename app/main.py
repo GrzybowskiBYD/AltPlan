@@ -5,6 +5,8 @@ import os
 from flask import Flask, render_template, redirect, make_response, send_from_directory, request
 from backend import Backend, get_themes
 
+from URLNormalize import UrlObj
+
 
 app = Flask(__name__, template_folder="./static/HTML")
 app.secret_key = secrets.token_hex()
@@ -22,7 +24,12 @@ def send_response(prefix, timetable_id, file, repl=False):
     plan = zs.get_class_timetable(url)
     if repl:
         try:
-            replacements = zs.get_class_subs(url)
+            if prefix == "o":
+                replacements = zs.get_class_subs(url)
+            elif prefix == "n":
+                replacements = zs.get_teacher_subs(UrlObj(f"{prefix}{timetable_id}"))
+            else:
+                replacements = ""
         except ValueError:
             replacements = ""
     else:
@@ -48,7 +55,7 @@ def send_response(prefix, timetable_id, file, repl=False):
 @app.route("/<string:class_url>")
 def desktop(class_url=None, file="main.html"):
     if class_url:
-        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] == "o")
+        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] in ("o", "n"))
     return redirect("/o1")
 
 

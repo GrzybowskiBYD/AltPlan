@@ -108,19 +108,24 @@
 
     function set_subs(row, column, text, group) {
         let temp;
-        const group_obj = ls[5 * row + column].querySelector(`.gr${group}`);
-
-        if (!group_obj) return 0;
         if (leave_old) {
             if (group !== -1) {
+                const group_obj = ls[5 * row + column].querySelector(`.gr${group}`);
+                if (!group_obj) return 0;
                 temp = `<s>${group_obj.innerHTML}</s><div class="repl">${text}</div>`;
-            } else {
-                temp = `<s>${ls[5 * row + column].innerHTML}</s><div class="repl">${text}</div>`;
+                group_obj.innerHTML = temp;
             }
-        } else {
-            temp = `<div class="repl">${text}</div>`;
+            else {
+                const group_obj = ls[5 * row + column].querySelector(`.l div`);
+                temp = `<s>${ls[5 * row + column].innerHTML}</s><div class="repl">${text}</div>`;
+                group_obj.innerHTML = temp;
+            }
         }
-        group_obj.innerHTML = temp;
+        else {
+            const group_obj = ls[5 * row + column].querySelector(`.l div`);
+            temp = `<div class="repl">${text}</div>`;
+            group_obj.innerHTML = temp;
+        }
     }
 </script>
 </body>

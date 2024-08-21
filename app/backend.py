@@ -27,9 +27,13 @@ class Backend:
 
         self.zse_url = "https://plan.zse.bydgoszcz.pl"
         self.subs_url = "https://zastepstwa.zse.bydgoszcz.pl/"
+        # self.subs_url = "http://localhost/"
         self.hash_url = "https://zastepstwa.zse.bydgoszcz.pl/"
+        # self.hash_url = "http://localhost/"
 
         self.class_cache = {}
+        self.teacher_cache = {}
+        self.teacher_subs_list = {}
         self.substitutions_html = ""
 
         self.refresh()
@@ -60,6 +64,7 @@ class Backend:
         self.__cache_list()
         self.__cache_weekday()
         self.class_cache = {}
+        self.__cache_teacher_subs_list()
 
     def url_to_name(self, url):
         url = UrlObj(url).id
@@ -138,6 +143,62 @@ class Backend:
                 group_nr = int(group) if group else 0
 
                 results.append((nr, weekday, info, group_nr))
+        return results
+
+    def get_teacher_subs(self, url: UrlObj):
+        if url not in self.nav_list.values():
+            return []
+        teacher_name = self.nav_list["teachers"][url]
+        r = re.search(r"(.)\.([^(\s]*)", teacher_name)
+        if " ".join(r.groups()) in self.teacher_subs_list.keys():
+            return self.teacher_subs_list[" ".join(r.groups())]
+        return []
+
+    def __cache_teacher_subs_list(self):
+        bs = self.substitutions_html
+        trs = bs.find_all("tr")
+        results = {}
+        teacher_results = []
+        append_flag = False
+        teacher = ""
+        teacher_raw = ""
+        for tr in trs[1:]:
+            tds = tr.find_all("td")
+            texts = [td.text.strip() for td in tds]
+            if len(texts) < 4:
+                if append_flag:
+                    results.update({teacher: teacher_results})
+                teacher_raw = tr.text.strip()
+                teacher = re.search(r"(^.).* (.*)", teacher_raw)
+                if teacher:
+                    teacher = " ".join(teacher.groups())
+                teacher_results = []
+                append_flag = True
+                continue
+            if "opis" in texts or not "".join(texts):
+                continue
+            nr = int(tds[0].text)
+            regex_date = re.search(r"(\d?\d.\d?\d.)(\d\d)?(\d\d)", teacher_raw)
+            # date in format DD.MM.YYYY present in the substitution name field
+            if regex_date:
+                normalized_date = regex_date[0] if regex_date.group(
+                    2) else f"{regex_date.group(1)}{datetime.datetime.now().year // 100}{regex_date.group(3)}"
+                weekday = datetime.datetime.strptime(normalized_date, "%d.%m.%Y").weekday()
+            # not present, default to global weekday value
+            else:
+                weekday = self.weekday
+
+            regex = re.search(r" - (.*)", texts[1])
+
+            subs_teacher = texts[2] if texts[2] else ""
+            comments = texts[3] if texts[3] else ""
+            classroom = regex.group(1) if regex.group(1) else ""
+
+            info = f"{subs_teacher} {f"({comments}) " if comments else ""}{classroom}".strip()
+
+            group_nr = -1
+            teacher_results.append((nr, weekday, info, group_nr))
+        self.teacher_subs_list = results
         return results
 
     def get_html_subs(self):
