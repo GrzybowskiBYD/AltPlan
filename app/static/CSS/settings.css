@@ -109,3 +109,8 @@ label:first-child {
 label:last-child {
     border-radius: 0 .25em .25em 0;
 }
+
+#version {
+    color: rgb(127, 127, 127);
+    text-align: center;
+}

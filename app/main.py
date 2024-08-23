@@ -3,9 +3,10 @@ import os
 
 
 from flask import Flask, render_template, redirect, make_response, send_from_directory, request
-from backend import Backend, get_themes
 
+from backend import Backend, get_themes
 from URLNormalize import UrlObj
+from __version__ import __version__
 
 
 app = Flask(__name__, template_folder="./static/HTML")
@@ -101,7 +102,8 @@ def settings(file="settings.html"):
     response = make_response(render_template(template_name_or_list=file,
                                              suffix=suffix,
                                              color_schemes=get_themes(),
-                                             backgrounds=backgrounds))
+                                             backgrounds=backgrounds,
+                                             app_version=__version__))
     return response
 
 
