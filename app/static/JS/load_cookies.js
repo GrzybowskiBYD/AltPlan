@@ -1,4 +1,3 @@
-const r = document.querySelector(':root');
 let darkMatchMedia = window.matchMedia("(prefers-color-scheme: dark)");
 let dark = darkMatchMedia.matches;
 const logo = document.getElementById("logo");
@@ -24,13 +23,6 @@ darkMatchMedia.onchange = (e) => {
         dark = e.matches;
         refresh_colors();
     }
-}
-
-
-function logo_click() {
-    dark = !dark;
-    logo.style.transform += `rotate(360deg)`;
-    refresh_colors();
 }
 
 function refresh_colors() {

@@ -35,6 +35,12 @@ def send_response(prefix, timetable_id, file, repl=False):
             replacements = ""
     else:
         replacements = ""
+    if os.path.exists("conf/backgrounds"):
+        backgrounds = [file for file in [f for f in os.listdir("conf/backgrounds") if
+                                         os.path.isfile(os.path.join("conf/backgrounds", f))]]
+    else:
+        backgrounds = []
+    html_repl = zs.get_html_subs()
     return make_response(render_template(template_name_or_list=file,
                                          parse_classes=temp["classes"].items(),
                                          parse_teachers=temp["teachers"].items(),
@@ -48,8 +54,12 @@ def send_response(prefix, timetable_id, file, repl=False):
                                          lucky_numbers=zs.get_lucky_number(),
                                          info=zs.info,
                                          motd=len(zs.get_html_subs()[0]) > 1,
+                                         motd_info=(html_repl[0], html_repl[1].items()),
                                          hide_mobile_groups=prefix == "o",
-                                         change_date=zs.change_date))
+                                         change_date=zs.change_date,
+                                         color_schemes=get_themes(),
+                                         backgrounds=backgrounds,
+                                         app_version=__version__))
 
 
 @app.route("/")
@@ -123,14 +133,7 @@ def teachers_table(file="basic.html"):
 
 @app.route("/zastepstwa")
 def repls(file="substitutions.html"):
-    temp = zs.nav_list
-    html_repl = zs.get_html_subs()
-    response = make_response(render_template(template_name_or_list=file,
-                                             parse_classes=temp["classes"].items(),
-                                             parse_teachers=temp["teachers"].items(),
-                                             parse_classrooms=temp["classrooms"].items(),
-                                             replacements=(html_repl[0], html_repl[1].items())))
-    return response
+    return send_response("o", "1", file)
 
 
 @app.route("/favicon.ico")

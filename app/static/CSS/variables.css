@@ -4,4 +4,6 @@
     --main-color: "rgb(154, 61, 36)";
     --theme-background: "rgb(51, 51, 51)";
     --theme-wght: 300;
+    --container-width: 100vw;
+    --nav-width: 19rem;
 }
