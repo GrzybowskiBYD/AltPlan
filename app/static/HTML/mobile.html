@@ -16,7 +16,7 @@
     <style></style>
     <script>
         const r = document.querySelector(':root');
-        const view_count = 3;
+        const view_count = 4;
         r.style.setProperty("--container-width", `${view_count * 100}vw`)
         const nav_width = 5 + 7 * (view_count - 1)
         document.querySelector("style").textContent += `@media screen and (min-width: ${nav_width}rem) { #nav { justify-content: center; column-gap: 2rem;}}`
@@ -25,7 +25,7 @@
     <script src='{{ url_for("static", filename="JS/load_cookies.js") }}'></script>
     <link href='{{ url_for("static", filename="CSS/transition.css") }}' rel="stylesheet">
     <link href='{{ url_for("static", filename="CSS/v1_timetable.css") }}' rel="stylesheet">
-    <link href='{{ url_for("static", filename="CSS/v3_info.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="CSS/v2_v3_info.css") }}' rel="stylesheet">
     <link href='{{ url_for("static", filename="CSS/v4_settings.css") }}' rel="stylesheet">
 
     <!-- REMOTE -->
@@ -49,7 +49,9 @@
         <div class="view" id="view1">
             {% include "v1_timetable.html" %}
         </div>
-{#        <div class="view" id="view2"></div>#}
+        <div class="view" id="view2">
+            {% include "v2_dates.html" %}
+        </div>
         <div class="view" id="view3">
             {% include "v3_info.html" %}
         </div>
@@ -60,7 +62,7 @@
     </div>
     <div id="nav">
 {#        {% set icons = ["calendar_month", "schedule", "campaign", "settings", "info"] %}#}
-        {% set icons = ["calendar_month", "campaign", "settings"] %}
+        {% set icons = ["calendar_month", "schedule", "campaign", "settings"] %}
         {% for icon in icons %}
             <div class="nav_button" id="nav_button{{ loop.index }}" onclick="nav_action({{ loop.index }})">
             <span class="{{ icon_type }} nav-icon icon" id="nav-icon{{ loop.index }}">

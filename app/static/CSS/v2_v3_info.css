@@ -1,4 +1,4 @@
-#view3 {
+#view2, #view3 {
     background-color: var(--theme-background);
 }
 
@@ -12,7 +12,7 @@
 }
 
 .footer-date {
-    width: 20rem;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
