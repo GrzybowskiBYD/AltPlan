@@ -19,7 +19,7 @@
     position: relative;
     overflow: auto;
     translate: var(--day-move) 0;
-    transition: translate 100ms;
+    transition: translate 100ms ease-in-out;
 }
 
 .day {

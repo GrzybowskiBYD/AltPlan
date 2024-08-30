@@ -25,7 +25,7 @@ body {
     height: 100%;
     overflow: hidden;
     translate: var(--negative_move) 0;
-    transition: translate 100ms;
+    transition: translate 100ms ease-in-out;
 }
 
 .view {
