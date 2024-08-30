@@ -67,7 +67,7 @@ class Backend:
         self.__cache_teacher_subs_list()
 
     def url_to_name(self, url):
-        url = UrlObj(url).id
+        url = self.url_obj(url).id
         g = re.search(r"([ons])", url).group(1)
         return self.nav_list[{"o": "classes", "n": "teachers", "s": "classrooms"}[g]][
             url]
@@ -78,7 +78,7 @@ class Backend:
         for i in range(3):
             for x in bs.find_all("ul")[i].find_all("li"):
                 split = x.a.text.split(" ")
-                url = UrlObj(x.a["href"]).id
+                url = self.url_obj(x.a["href"]).id
                 if i == 0:
                     name = split[0] + (f" {split[-1]}" if len(split) > 1 else "")
                     self.nav_list[list(self.nav_list.keys())[i]].update({url: name})
@@ -102,7 +102,7 @@ class Backend:
         self.weekday = clamp_datetime(now, first, last).weekday()
 
     def get_class_subs(self, url):
-        url = UrlObj(url).id
+        url = self.url_obj(url).id
         if url not in self.nav_list["classes"]:
             return []
         class_name = self.nav_list["classes"][url]
@@ -222,14 +222,14 @@ class Backend:
         return text.strip().split("\n"), results
 
     def get_class_timetable(self, url):
-        url = UrlObj(url).id
+        url = self.url_obj(url).id
         if url in self.class_cache.keys():
             return self.class_cache[url]
         self.__cache_class_timetable(url)
         return self.class_cache[url]
 
     def __cache_class_timetable(self, url):
-        r = urllib.request.urlopen(UrlObj(url))
+        r = urllib.request.urlopen(self.url_obj(url).url)
         bs = bs4.BeautifulSoup(r, "html.parser")
         table = bs.find('table', attrs={'class': 'tabela'})
         tds = table.find_all("td")
@@ -282,7 +282,7 @@ class Backend:
                 name = re.sub(r"-.\d", "", name)
                 if "wf" in name:
                     if t_name is None:
-                        teacher = get_sport_teacher(c_url, i)
+                        teacher = self.get_sport_teacher(c_url, i)
                         if teacher:
                             t_name = teacher.text
                             t_url = re.sub(r".html", "", teacher["href"]) if teacher.has_attr("href") else None
@@ -305,7 +305,7 @@ class Backend:
             dates = re.findall(r"\d\d.\d\d.\d\d\d\d", raw_text)
             details = raw_text[raw_text.find("-") + 1:].strip().capitalize() if raw_text.find("-") != -1 else ""
             self.info = [dates, details]
-        self.class_cache.update({UrlObj(url).id: tt})
+        self.class_cache.update({self.url_obj(url).id: tt})
 
     def get_lucky_number(self):
         if os.path.exists("conf/lucky_numbers.txt"):
@@ -334,7 +334,7 @@ class Backend:
                     elif "z wych" in day[0]["name"]:
                         final[i][j + 2].append(class_obj(tn=day[0]["teacher"]["name"], tu=day[0]["teacher"]["url"],
                                                          ctn=self.nav_list["classes"][u].split(" ")[0],
-                                                         ctu=UrlObj(u).id,
+                                                         ctu=self.url_obj(u).id,
                                                          cn=day[0]["classroom"]["name"], cu=day[0]["classroom"]["url"]))
                         teacher = day[0]["teacher"]["name"]
                         break
@@ -347,7 +347,7 @@ class Backend:
                     elif teacher == day[0]["teacher"]["name"] and "z wych" not in day[0]["name"]:
                         final[i][j + 2].append(class_obj(tn=day[0]["teacher"]["name"], tu=day[0]["teacher"]["url"],
                                                          ctn=self.nav_list["classes"][u].split(" ")[0],
-                                                         ctu=UrlObj(u).id,
+                                                         ctu=self.url_obj(u).id,
                                                          cn=day[0]["classroom"]["name"],
                                                          cu=day[0]["classroom"]["url"]))
                         break
@@ -355,13 +355,15 @@ class Backend:
                         final[i][j + 2] = []
         return final
 
+    def url_obj(self, url):
+        return UrlObj(url, self.zse_url)
 
-def get_sport_teacher(url, td_num, tag="n"):
-    r = urllib.request.urlopen(UrlObj(url))
-    bs = bs4.BeautifulSoup(r, "html.parser")
-    table = bs.find('table', attrs={'class': 'tabela'})
-    tds = table.find_all("td")
-    return tds[td_num].find(attrs={"class": tag})
+    def get_sport_teacher(self, url, td_num, tag="n"):
+        r = urllib.request.urlopen(self.url_obj(url).url)
+        bs = bs4.BeautifulSoup(r, "html.parser")
+        table = bs.find('table', attrs={'class': 'tabela'})
+        tds = table.find_all("td")
+        return tds[td_num].find(attrs={"class": tag})
 
 
 def class_obj(name=None, tn=None, tu=None, cn=None, cu=None, group=None, ctn=None, ctu=None, group_count=None):

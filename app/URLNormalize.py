@@ -1,7 +1,7 @@
 import re
 
 
-class UrlObj(str):
+class UrlObj:
     def __init__(self, url, url_prefix="https://plan.zse.bydgoszcz.pl"):
         self.url_prefix = url_prefix
         self.url = self.__normalize_url(url)
