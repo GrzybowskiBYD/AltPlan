@@ -47,7 +47,7 @@ svg {
     display: flex;
 }
 
-@media screen and (orientation: landscape) {
+@media screen and (min-width: 1300px) {
     #mobile-warning-background {
         display: none;
     }
