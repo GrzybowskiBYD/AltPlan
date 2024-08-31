@@ -29,20 +29,20 @@
     <span class="info">*Dotyczy tylko wersji na telefon</span>
     <div class="groups setting">
         <label>
-            <input type="checkbox" class="group"> Religia
+            <input onchange="submit_settings()" type="checkbox" class="group"> Religia
         </label>
     </div>
     <div class="groups setting">
         {% for i in range(2) %}
             <label>
-                <input type="checkbox" class="group"> {{ i + 1 }}/2
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}/2
             </label>
         {% endfor %}
     </div>
     <div class="groups setting">
         {% for i in range(3) %}
             <label>
-                <input type="checkbox" class="group"> {{ i + 1 }}/3
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}/3
             </label>
         {% endfor %}
     </div>
@@ -50,19 +50,9 @@
     <div class="groups setting">
         {% for i in range(2) %}
             <label>
-                <input type="checkbox" class="group"> {{ i + 1 }}
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}
             </label>
         {% endfor %}
-    </div>
-    <h3>Inne:</h3>
-    <p>Ostrzeżenie w stopce:</p>
-    <div class="setting">
-        <label>
-            <input type="radio" name="footer-warning" class="footer-warning" value="true"> Wł.
-        </label>
-        <label>
-            <input type="radio" name="footer-warning" class="footer-warning" value="false"> Wył.
-        </label>
     </div>
     {% if backgrounds != [] %}
         <p>Tło:</p>
@@ -103,10 +93,6 @@
             document.querySelector("input.background").checked = true;
         }
     }
-    if (footer_warning !== undefined) {
-        console.log("changing", footer_warning);
-        document.querySelector(`input.footer-warning[value="${footer_warning}"]`).checked = true;
-    } else document.querySelector('input.footer-warning').checked = true;
     for (const [i, g] of document.querySelectorAll("input.group").entries()) {
         g.checked = groups[i];
     }
@@ -120,13 +106,25 @@
         for (const [i, g] of document.querySelectorAll("input.group").entries()) {
             temp_groups[i] = g.checked;
         }
+        groups = temp_groups
         localStorage.setItem("groups", JSON.stringify(temp_groups));
-        const temp_warning = document.querySelector('input.footer-warning:checked').value;
-        localStorage.setItem("warning", temp_warning);
         if (backgrounds_enabled) {
             const temp_background = document.querySelector('input.background:checked').value;
             localStorage.setItem("background", temp_background);
         }
         refresh_colors();
+        refresh_groups();
     }
+
+    function refresh_groups() {
+        const group_ids = ["1-r", "1-2", "2-2", "1-3", "2-3", "3-3", "1-wf", "2-wf"]
+        for (const [i, x] of groups.entries()) {
+            const temp_group_obj = document.querySelectorAll(`.gr${group_ids[i]}`);
+            temp_group_obj.forEach((e) => {
+                e.style.display = x ? "flex" : "none";
+            })
+        }
+    }
+
+    refresh_groups();
 </script>

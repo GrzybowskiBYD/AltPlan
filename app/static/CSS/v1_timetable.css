@@ -124,6 +124,7 @@ a[href] {
     color: white;
     overflow: clip;
 }
+
 @media screen and (min-width: 33rem) {
     #weekday-nav {
         justify-content: center;
