@@ -63,7 +63,7 @@
 
             {% for b in backgrounds %}<label>
                 <input type="radio" name="background" class="background" onchange="submit_settings()"
-                       value="{{ b }}">{{ b }}
+                       value="{{ b }}">{{ b.split(".")[0] }}
             </label>{% endfor %}
 
         </div>

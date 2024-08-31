@@ -36,6 +36,7 @@ function refresh_colors() {
         color_scheme = "rgb(154, 61, 36)"
     }
     if (background) r.style.setProperty("--background", `url(/backgrounds/${background})`);
+    else r.style.setProperty("--background", "none");
     if (dark) {
         r.style.setProperty("--main-color", color_scheme);
         r.style.setProperty("--theme-background", "rgb(51, 51, 51)");
