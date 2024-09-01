@@ -8,6 +8,7 @@
     <title>Plan ZSE stworzony przez @grzybowski_byd</title>
 
     <!-- LOCAL -->
+    <script>const r = document.querySelector(':root');</script>
     <link rel="stylesheet" href="/static/CSS/style.css">
     <link rel="stylesheet" href="/static/CSS/nav.css">
     <link rel="stylesheet" href="/static/CSS/header_footer.css">
@@ -25,11 +26,11 @@
         <header><h1>Zastępstwa</h1></header>
         <div id="content">
             <div id="motd">
-                {% for repl in replacements[0] %}
+                {% for repl in motd_info[0] %}
                     <p>{{ repl }}</p>
                 {% endfor %}
             </div>
-            {% for repl in replacements[1] %}
+            {% for repl in motd_info[1] %}
                 <table>
                     <tr>
                         <th colspan="4">{{ repl[0] }}</th>

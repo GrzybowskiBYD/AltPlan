@@ -1,42 +1,82 @@
-body, #right {
+:root {
+    --item_width: 20vw;
+    --move: 0vw;
+    --negative_move: 0vw;
+}
+
+body {
     margin: 0;
+    overflow: hidden;
+    position: fixed; /* For Samsung Internet browser */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
     font-family: 'Roboto Mono', "monospace";
 }
 
-#main {
-    background-color: var(--theme-background);
-    height: 100vh;
+#screen {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    width: 100vw;
+    height: 100dvh;
+    max-height: 100vh;
 }
 
-#header {
+#container {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    padding: 0 .5rem;
-    background-color: var(--main-color);
-    background-image: var(--background);
+    width: var(--container-width);
+    height: 100%;
+    overflow: hidden;
+    translate: var(--negative_move) 0;
+    transition: translate 300ms ease-in-out;
 }
 
-#settings-button {
-    margin: auto 0;
-}
-
-select {
+.view {
     width: 100%;
+    height: 100%;
 }
 
-form {
-    width: 100%;
+#nav {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    width: 100vw;
+    height: 4rem;
+    justify-content: space-between;
+    background-color: var(--main-color);
 }
 
-#plan_select, h1 {
+
+
+.nav_button {
+    width: 5rem;
+    height: 100%;
+    display: flex;
+}
+
+.icon {
+    display: block;
+    margin: auto;
+    color: #fff;
+    font-size: 2.5rem !important;
+    transition: color 100ms;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.nav-icon {
+    color: #fff8;
+}
+
+#nav-icon1 {
+    color: #fff;
+}
+
+#plan_select, h2 {
     margin: 0;
-    /*max-width: 90vw;*/
     border: 0;
     font-size: 2.5rem;
     text-align: center;
@@ -45,153 +85,4 @@ form {
     background-image: var(--background);
     color: white;
     border-radius: 0;
-}
-
-a, p {
-    color: var(--negative);
-}
-
-.day {
-    display: none;
-    overflow: scroll;
-}
-.shown {
-    display: block;
-}
-
-.day, #days{
-    height: 100%;
-}
-
-#weekday{
-    display: flex;
-    background-color: var(--main-color);
-    color: var(--negative);
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    height: 75px;
-}
-
-.overflow {
-    min-height: 125px;
-}
-
-#weekday-text {
-    color: white;
-    width: 100%;
-    text-align: center;
-    font-size: 2rem;
-    margin: 0.5em;
-}
-
-button {
-    background: #0000;
-    border: none;
-    color: var(--main-color);
-    filter: brightness(60%);
-    font-size: 2rem;
-}
-#weekday button:first-child {
-    padding-left: 2rem;
-}
-
-#weekday button:last-child {
-    padding-right: 2rem;
-}
-
-.lesson {
-    display: flex;
-    flex-direction: row;
-    color: var(--negative);
-    font-size: .2rem;
-    border-bottom: rgb(127, 127, 127) solid 2px;
-}
-.number {
-    font-size: 13em;
-    margin: 0 0.3em;
-}
-.hours{
-    display: flex;
-    font-size: 6em;
-    flex-direction: column;
-    margin: 0 0.6em 0 0;
-}
-
-.hours p:first-child {
-    margin-bottom: 0.16em;
-}
-
-.subject{
-    margin-top: 0;
-    font-size: 7em;
-    margin-bottom: .1em;
-}
-
-.flex-column {
-    display: flex;
-    flex-direction: column;
-    font-size: 1em;
-    margin: 0;
- }
-.lesson-text {
-    display: flex;
-    flex-direction: column;
-}
-.teacher_classroom {
-    font-size: 5em;
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-    color: var(--main-color);
-}
-.darker-text {
-    filter: brightness(70%);
-}
-
-.repl-text {
-    color: var(--main-color);
-}
-.repl-s  {
-    text-decoration: line-through;
-    text-decoration-thickness: 0.1em;
-    text-decoration-color: var(--main-color);
-}
-#ustawienia-form {
-    padding: 0.7rem;
-    font-size: 1.2rem;
-    max-width: 90vh;
-    margin-left: auto;
-    margin-right: auto;
-}
-.ustawienia label, .ustawienia input {
-    font-size: 1em;
-    color: white;
-}
-#grupy {
-    display: flex;
-    flex-direction: column;
-}
-.naglowek-ustaw {
-    font-size: 1.5em;
-    color: white;
-}
-.naglowek-ustaw:not(:first-child) {
-    margin-top: 1em;
-}
-.ustawienia {
-    padding: 0.3em;
-}
-
-a[href] {
-    color: var(--main-color);
-}
-
-.material-icons {
-    color: white;
-    font-size: 36px !important;
-}
-.annotation {
-    color: white;
-    font-size: .8rem;
 }

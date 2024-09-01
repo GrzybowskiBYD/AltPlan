@@ -1,0 +1,130 @@
+<h2>Ustawienia</h2>
+<div id="settings">
+    <h3>Kolor motywu:</h3>
+    <div id="color-scheme">
+        {% for x in color_schemes %}
+            <label class="color-scheme-container" style="background-color: {{ x }}">
+                <input onchange="submit_settings()" type="radio" name="color-scheme" class="color-scheme"
+                       value={{ x }}>
+                <span class="{{ icon_type }}" style="font-size: .7em">check</span>
+            </label>
+        {% endfor %}
+    </div>
+    <h3>Motyw:</h3>
+    <div id="theme" class="setting">
+        <label>
+            <input onchange="submit_settings()" type="radio" class="theme" name="theme" value="system" id="system">
+            Systemowy
+        </label>
+        <label>
+            <input onchange="submit_settings()" type="radio" class="theme" name="theme" value="dark" id="dark">
+            Ciemny
+        </label>
+        <label>
+            <input onchange="submit_settings()" type="radio" class="theme" name="theme" value="light" id="light">
+            Jasny
+        </label>
+    </div>
+    <h3>Wyświetl grupy<span class="info">*</span>:</h3>
+    <span class="info">*Dotyczy tylko wersji na telefon</span>
+    <div class="groups setting">
+        <label>
+            <input onchange="submit_settings()" type="checkbox" class="group"> Religia
+        </label>
+    </div>
+    <div class="groups setting">
+        {% for i in range(2) %}
+            <label>
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}/2
+            </label>
+        {% endfor %}
+    </div>
+    <div class="groups setting">
+        {% for i in range(3) %}
+            <label>
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}/3
+            </label>
+        {% endfor %}
+    </div>
+    <p>Grupy WF:</p>
+    <div class="groups setting">
+        {% for i in range(2) %}
+            <label>
+                <input onchange="submit_settings()" type="checkbox" class="group"> {{ i + 1 }}
+            </label>
+        {% endfor %}
+    </div>
+    {% if backgrounds != [] %}
+        <p>Tło:</p>
+        <div class="setting">
+            <label>
+                <input value="" type="radio" name="background" class="background" onchange="submit_settings()">Brak
+            </label>
+
+            {% for b in backgrounds %}<label>
+                <input type="radio" name="background" class="background" onchange="submit_settings()"
+                       value="{{ b }}">{{ b.split(".")[0] }}
+            </label>{% endfor %}
+
+        </div>
+    {% endif %}
+    <span id="version">Wersja aplikacji: {{ app_version }}</span>
+</div>
+<script>
+    const backgrounds_enabled = document.querySelector("input.background") !== null;
+
+    const checked_color_scheme = document.querySelector(`input.color-scheme[value="${color_scheme}"]`)
+    if (checked_color_scheme) {
+        checked_color_scheme.checked = true;
+    } else {
+        document.querySelector(`input.color-scheme`).checked = true;
+    }
+    const checked_theme = document.querySelector(`input.theme[value="${preffered_theme}"]`);
+    if (checked_theme) {
+        checked_theme.checked = true;
+    } else {
+        document.querySelector("input.theme").checked = true;
+    }
+    if (backgrounds_enabled) {
+        const background_obj = document.querySelector(`input.background[value="${background}"]`);
+        if (background_obj) {
+            background_obj.checked = true;
+        } else {
+            document.querySelector("input.background").checked = true;
+        }
+    }
+    for (const [i, g] of document.querySelectorAll("input.group").entries()) {
+        g.checked = groups[i];
+    }
+
+    function submit_settings() {
+        const color_scheme = document.querySelector('input.color-scheme:checked').value;
+        localStorage.setItem("color_scheme", color_scheme);
+        const theme = document.querySelector('input.theme:checked').value;
+        localStorage.setItem("theme", theme);
+        let temp_groups = [];
+        for (const [i, g] of document.querySelectorAll("input.group").entries()) {
+            temp_groups[i] = g.checked;
+        }
+        groups = temp_groups
+        localStorage.setItem("groups", JSON.stringify(temp_groups));
+        if (backgrounds_enabled) {
+            const temp_background = document.querySelector('input.background:checked').value;
+            localStorage.setItem("background", temp_background);
+        }
+        refresh_colors();
+        refresh_groups();
+    }
+
+    function refresh_groups() {
+        const group_ids = ["1-r", "1-2", "2-2", "1-3", "2-3", "3-3", "1-wf", "2-wf"]
+        for (const [i, x] of groups.entries()) {
+            const temp_group_obj = document.querySelectorAll(`.gr${group_ids[i]}`);
+            temp_group_obj.forEach((e) => {
+                e.style.display = x ? "flex" : "none";
+            })
+        }
+    }
+
+    refresh_groups();
+</script>

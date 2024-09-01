@@ -1,0 +1,66 @@
+<header>
+    <div id="header">
+        <form>
+            <label hidden="hidden" for="plan_select">Plan: </label>
+            <select name="plan" id="plan_select" onchange="window.location.replace(this.form.plan.value)">
+                <option id="class_test" value="" disabled selected>{{ current_class }}</option>
+                <optgroup label="Oddziały: ">
+                    {% for temp in parse_classes %}
+                        <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                </optgroup>
+                <optgroup label="Nauczyciele: ">
+                    {% for temp in parse_teachers %}
+                        <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                </optgroup>
+                <optgroup label="Sale: ">
+                    {% for temp in parse_classrooms %}
+                        <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
+                </optgroup>
+            </select>
+
+        </form>
+
+    </div>
+</header>
+<div id="days">
+    {% for i in range(5) %}
+        <div class="day">
+            {% for row in plan %}
+                {%- if row[i + 2][0]["name"] is not none %}
+                    {%- for group in row[i + 2] %}
+                        <div class="lesson gr{{ group["group"] }} gr{{ group["group"] }}-{{ group["group-count"] }} r{{ row[0][0]["name"] }}">
+                            <span class="number">{{ row[0][0]["name"] }}</span>
+                            <div class="hours darker-text">
+                                <span>{{ row[1][0]["name"][:5] }}</span>
+                                <span>{{ row[1][0]["name"][6:] }}</span>
+                            </div>
+                            <div class="flex-column">
+                                <span class="subject">{{ group["name"] }}</span>
+                                <span class="teacher_classroom">
+                                        {%- if group["class"]["name"] is not none %}
+                                            <a {{ ("href=" + group["class"]["url"]) if group["class"]["url"] is not none else "" }}>{{ group["class"]["name"] }}</a>
+                                        {%- endif -%}
+                                    {{ " | " if  (group["class"]["name"] is not none and group["teacher"]["name"] is not none) or (group["class"]["name"] is not none and group["classroom"]["name"] is not none) }}
+                                    {%- if group["teacher"]["name"] is not none %}
+                                        <a {{ ("href=" + group["teacher"]["url"]) if group["teacher"]["url"] is not none else "" }}>{{ group["teacher"]["name"] }}</a>
+                                    {%- endif -%}
+                                    {{ " | " if  (group["teacher"]["name"] is not none and group["classroom"]["name"] is not none) }}
+                                    {%- if group["classroom"]["name"] is not none %}
+                                        <a {{ ("href=" + group["classroom"]["url"]) if group["classroom"]["url"] is not none else "" }}>{{ group["classroom"]["name"] }}</a>
+                                    {%- endif %}
+                                    </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {%- endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+<div id="weekday-nav">
+    <div class="weekday-nav-button" onmouseup="prev_day()"><span id="previous-weekday" class="{{ icon_type }} icon">chevron_left
+    </div>
+    <span id="weekday-span"></span>
+    <div class="weekday-nav-button" onmouseup="next_day()"><span id="next-weekday" class="{{ icon_type }} icon">chevron_right
+    </div>
+</div>

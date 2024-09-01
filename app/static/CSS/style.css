@@ -38,3 +38,39 @@ a {
 svg {
     color: var(--main-color);
 }
+#mobile-warning-background {
+    z-index: 100;
+    position: fixed;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #000a;
+    display: flex;
+}
+
+@media screen and (min-width: 1300px) {
+    #mobile-warning-background {
+        display: none;
+    }
+}
+
+#mobile-warning {
+    width: 20rem;
+    height: 10rem;
+    padding: 1rem;
+    margin: auto;
+    background-color: var(--theme-background);
+    border-radius: 1rem;
+}
+#mobile-warning-button {
+    width: 10rem;
+    height: 5rem;
+    background-color: var(--main-color);
+    border-radius: 1rem;
+    text-align: center;
+    display: flex;
+    margin: 0 auto;
+}
+#mobile-warning-button a {
+    margin: auto 0;
+    color: white;
+}

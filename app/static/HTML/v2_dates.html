@@ -1,0 +1,33 @@
+<h2>Daty</h2>
+<div id="info">
+    <h3>Daty:</h3>
+    <div class="footer-date">
+        <p style="text-align: left">Wprowadzenie planu: </p>
+        <p style="text-align: right">{{ info[0][0] }}</p>
+    </div>
+    {% if info[0][1] %}
+        <div class="footer-date">
+            <p style="text-align: left">Wygaśnięcie planu: </p>
+            <p style="text-align: right">{{ info[0][1] }}</p>
+        </div>
+    {% else %}
+        <div class="footer-date">
+            <p style="text-align: left">Wygaśnięcie planu: </p>
+            <p style="text-align: right">b.d.</p>
+        </div>
+    {% endif %}
+    {% if info[1] %}
+        <p>{{ info[1] }}</p>
+    {% endif %}
+    <div class="footer-date">
+        <p style="text-align: left">Ostatnia zmiana w zastępstwach: </p>
+        <p style="text-align: right; display: flex; flex-direction: column">
+            <span>{{ change_date.strftime("%d.%m.%Y") }}</span>
+            <span>{{ change_date.strftime("%H:%M") }}</span>
+        </p>
+    </div>
+    <div class="footer-date">
+        <p style="text-align: left">Data wygenerowania planu: </p>
+        <p style="text-align: right; display: flex; flex-direction: column">{{ info[2] }}</p>
+    </div>
+</div>

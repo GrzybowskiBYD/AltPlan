@@ -1,40 +1,6 @@
-#main {
+#view4 {
     background-color: var(--theme-background);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
 }
-
-h1 {
-    margin: 0;
-    border: 0;
-    font-size: 2.5rem;
-    text-align: center;
-    text-align: -webkit-center;
-    background-color: var(--main-color);
-    background-image: var(--background);
-    color: white;
-    border-radius: 0;
-}
-
-a, p {
-    color: var(--negative);
-}
-
-.overflow {
-    min-height: 125px;
-}
-
-a[href] {
-    color: var(--main-color);
-}
-
-.material-icons {
-    color: white;
-    font-size: 36px !important;
-}
-
 #settings {
     max-width: 90vh;
     margin: 0 auto;
@@ -48,7 +14,6 @@ a[href] {
     display: flex;
     flex-wrap: wrap;
 }
-
 .setting * {
     margin-right: .5em;
 }

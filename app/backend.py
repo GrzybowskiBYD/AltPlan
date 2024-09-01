@@ -304,7 +304,8 @@ class Backend:
             raw_text = bs.find(attrs={"align": "left"}).text.strip()
             dates = re.findall(r"\d\d.\d\d.\d\d\d\d", raw_text)
             details = raw_text[raw_text.find("-") + 1:].strip().capitalize() if raw_text.find("-") != -1 else ""
-            self.info = [dates, details]
+            generated = bs.select('td[align="right"]:not(.op)')[0].text.split()[1]
+            self.info = [dates, details, generated]
         self.class_cache.update({self.url_obj(url).id: tt})
 
     def get_lucky_number(self):

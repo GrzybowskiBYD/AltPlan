@@ -3,144 +3,76 @@
 <head>
     <!-- META -->
     <meta charset="UTF-8">
+    <meta id="safari-theme-color" name="theme-color" content="#000000">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Plan ZSE stworzony przez @grzybowski_byd</title>
-
+    <!-- FLASK PARSED -->
+    {% set icon_type = "material-symbols-rounded" %}
+    <script>
+        let weekday = parseInt({{ weekday }});
+    </script>
     <!-- LOCAL -->
-    <link href="/static/CSS/mobile.css" rel="stylesheet">
-    <script src="/static/JS/load_cookies.js"></script>
-    {% if hide_mobile_groups %}
-    <style>
-        .gr1-2, .gr2-2, .gr1-3, .gr2-3, .gr3-3, .gr1-wf, .gr2-wf, .gr1-r{
-            display: none;
-        }
-    </style>
-    {% endif %}
+    <link href='{{ url_for("static", filename="CSS/mobile.css") }}' rel="stylesheet">
+    <style></style>
+    <script>
+        const r = document.querySelector(':root');
+        const view_count = 4;
+        r.style.setProperty("--container-width", `${view_count * 100}vw`)
+        const nav_width = 5 + 7 * (view_count - 1)
+        document.querySelector("style").textContent += `@media screen and (min-width: ${nav_width}rem) { #nav { justify-content: center; column-gap: 2rem;}}`
+    </script>
+    <link href='{{ url_for("static", filename="CSS/variables.css") }}' rel="stylesheet">
+    <script src='{{ url_for("static", filename="JS/load_cookies.js") }}'></script>
+    <link href='{{ url_for("static", filename="CSS/transition.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="CSS/v1_timetable.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="CSS/v2_v3_info.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="CSS/v4_settings.css") }}' rel="stylesheet">
+
     <!-- REMOTE -->
     <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <script>function nav_action(index) {
+        r.style.setProperty("--move", `${(index - 1) * 100 / view_count}vw`)
+        r.style.setProperty("--negative_move", `-${(index - 1) * 100}vw`)
+        document.querySelectorAll('.nav-icon').forEach((value) => {
+            value.style.setProperty("color", "#fff8")
+        })
+        document.querySelector(`#nav-icon${index}`).style.setProperty("color", "white")
+    }
+    </script>
 </head>
 <body>
-<div id="main">
-    <header>
-        <div id="header">
-            <a id="settings-button" href="/ustawienia?m/{{ url }}"><i class="material-icons">settings</i></a>
-            <form>
-                <label hidden="hidden" for="plan_select">Plan: </label>
-                <select name="plan" id="plan_select" onchange="window.location.replace(this.form.plan.value)">
-                    <option id="class_test" value="" disabled selected>{{ current_class }}</option>
-                    <optgroup label="Oddziały: ">
-                        {% for temp in parse_classes %}
-                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-                    </optgroup>
-                    <optgroup label="Nauczyciele: ">
-                        {% for temp in parse_teachers %}
-                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-                    </optgroup>
-                    <optgroup label="Sale: ">
-                        {% for temp in parse_classrooms %}
-                            <option value='{{ temp[0] | replace(".html", "") | replace("plany/", "") }}'>{{ temp[1] }}</option>{% endfor %}
-                    </optgroup>
-                </select>
-
-            </form>
-
+<div id="screen">
+    <div id="container">
+        <div class="view" id="view1">
+            {% include "v1_timetable.html" %}
         </div>
-    </header>
-    <div id="days">
-        {%- for i in range(5) %}
-            <div class="day">
-                {%- for row in plan -%}
-                    {%- if row[i + 2][0]["name"] is not none %}
-                        {%- for group in row[i + 2] %}
-                            <div class="lesson gr{{ group["group"] }} gr{{ group["group"] }}-{{ group["group-count"] }} r{{ row[0][0]["name"] }}">
-                                <span class="number">{{ row[0][0]["name"] }}</span>
-                                <div class="hours darker-text">
-                                    <span>{{ row[1][0]["name"][:5] }}</span>
-                                    <span>{{ row[1][0]["name"][6:] }}</span>
-                                </div>
-                                <div class="flex-column">
-                                    <span class="subject">{{ group["name"] }}</span>
-                                    <span class="teacher_classroom">
-                                        {%- if group["class"]["name"] is not none %}
-                                            <a {{ ("href=" + group["class"]["url"]) if group["class"]["url"] is not none else "" }}>{{ group["class"]["name"] }}</a>
-                                        {%- endif -%}
-                                        {{ " | " if  (group["class"]["name"] is not none and group["teacher"]["name"] is not none) or (group["class"]["name"] is not none and group["classroom"]["name"] is not none) }}
-                                        {%- if group["teacher"]["name"] is not none %}
-                                            <a {{ ("href=" + group["teacher"]["url"]) if group["teacher"]["url"] is not none else "" }}>{{ group["teacher"]["name"] }}</a>
-                                        {%- endif -%}
-                                        {{ " | " if  (group["teacher"]["name"] is not none and group["classroom"]["name"] is not none) }}
-                                        {%- if group["classroom"]["name"] is not none %}
-                                            <a {{ ("href=" + group["classroom"]["url"]) if group["classroom"]["url"] is not none else "" }}>{{ group["classroom"]["name"] }}</a>
-                                        {%- endif %}
-                                    </span>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {%- endif %}
-                {%- endfor -%}
-                <div class="overflow"></div>
+        <div class="view" id="view2">
+            {% include "v2_dates.html" %}
+        </div>
+        <div class="view" id="view3">
+            {% include "v3_info.html" %}
+        </div>
+        <div class="view" id="view4">
+            {% include "v4_settings.html" %}
+        </div>
+{#        <div class="view" id="view5"></div>#}
+    </div>
+    <div id="nav">
+{#        {% set icons = ["calendar_month", "schedule", "campaign", "settings", "info"] %}#}
+        {% set icons = ["calendar_month", "schedule", "campaign", "settings"] %}
+        {% for icon in icons %}
+            <div class="nav_button" id="nav_button{{ loop.index }}" onclick="nav_action({{ loop.index }})">
+            <span class="{{ icon_type }} nav-icon icon" id="nav-icon{{ loop.index }}">
+            {{ icon }}
+            </span>
             </div>
         {% endfor %}
     </div>
-    <div id="weekday">
-        <button onclick="prev_day()"><</button>
-        <span id="weekday-text">Poniedziałek</span>
-        <button onclick="next_day()">></button>
-    </div>
-    <script src="/static/JS/transition.js"></script>
-    <script>
-        let weekdayH1 = document.getElementById("weekday-text");
-        let weekday = parseInt({{ weekday }});
-        let weekdays = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek"];
-        weekdayH1.innerText = weekdays[weekday];
-        const days = document.querySelectorAll(".day");
-        days[weekday].classList.toggle("shown");
-
-        let repl = JSON.parse('{{replacements|tojson}}');
-        for (const sub of repl) {
-            set_repl(sub[0], sub[1], sub[2], sub[3]);
-        }
-
-        function prev_day() {
-            days[weekday].classList.toggle("shown");
-            if (weekday > 0) {
-                weekday -= 1;
-            }
-            days[weekday].classList.toggle("shown");
-            weekdayH1.innerText = weekdays[weekday];
-        }
-
-        function next_day() {
-            days[weekday].classList.toggle("shown");
-            if (weekday < 4) {
-                weekday += 1;
-            }
-            days[weekday].classList.toggle("shown");
-            weekdayH1.innerText = weekdays[weekday];
-        }
-
-        function set_repl(row, column, text, group) {
-            const group_obj = days[column].querySelector(`.gr${group}.r${row}`);
-            const subject = group_obj.querySelector(".flex-column .subject");
-            subject.innerText = text;
-            subject.classList.toggle("repl-text");
-            group_obj.querySelector(".teacher_classroom").classList.toggle("repl-s");
-        }
-    </script>
-    <script>
-        const group_ids = ["1-r", "1-2", "2-2", "1-3", "2-3", "3-3", "1-wf", "2-wf"]
-        for (const [i, x] of groups.entries()) {
-            if (x) {
-                const temp_group_obj = document.querySelectorAll(`.gr${group_ids[i]}`)
-                temp_group_obj.forEach((e) => {
-                    e.style.display = "flex";
-                })
-            }
-        }
-    </script>
 </div>
 </body>
 </html>
+<script src="{{ url_for("static", filename="JS/day_selector.js") }}"></script>

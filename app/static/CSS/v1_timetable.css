@@ -1,0 +1,143 @@
+:root {
+    --day-move: 0vw;
+}
+
+#view1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--theme-background);
+    height: 100%;
+    overflow: hidden;
+}
+
+#days {
+    width: 500vw;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    overflow: auto;
+    translate: var(--day-move) 0;
+    transition: translate 300ms ease-in-out;
+}
+
+.day {
+    display: block;
+    overflow: scroll;
+    width: 100vw;
+}
+
+a, p {
+    color: var(--negative);
+}
+
+a[href] {
+    color: var(--main-color);
+}
+
+.lesson {
+    display: flex;
+    flex-direction: row;
+    color: var(--negative);
+    font-size: .2rem;
+    border-bottom: rgb(127, 127, 127) solid 2px;
+}
+
+.number {
+    font-size: 13em;
+    margin: 0 0.3em;
+}
+
+.hours {
+    display: flex;
+    font-size: 6em;
+    flex-direction: column;
+    margin: 0 0.6em 0 0;
+}
+
+.hours p:first-child {
+    margin-bottom: 0.16em;
+}
+
+.subject {
+    margin-top: 0;
+    font-size: 7em;
+    margin-bottom: .1em;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+    margin: 0;
+}
+
+.lesson-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.teacher_classroom {
+    font-size: 5em;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    color: var(--main-color);
+}
+
+.darker-text {
+    filter: brightness(70%);
+}
+
+.repl-text {
+    color: var(--main-color);
+}
+
+.repl-s {
+    text-decoration: line-through;
+    text-decoration-thickness: 0.1em;
+    text-decoration-color: var(--main-color);
+}
+
+#weekday-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 3rem;
+    min-height: 3rem;
+    background-color: var(--main-color);
+    border-bottom: #fff2 solid 3px;
+    z-index: 10;
+    padding: 0 1rem;
+}
+
+.weekday-nav-button {
+    display: flex;
+    width: 3rem;
+}
+
+#weekday-span {
+    width: 15rem;
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    overflow: clip;
+}
+
+@media screen and (min-width: 33rem) {
+    #weekday-nav {
+        justify-content: center;
+        column-gap: 5rem;
+    }
+}
+
+select {
+    width: 100%;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
