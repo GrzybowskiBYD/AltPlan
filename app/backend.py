@@ -167,7 +167,10 @@ class Backend:
             texts = [td.text.strip() for td in tds]
             if len(texts) < 4:
                 if append_flag:
-                    results.update({teacher: teacher_results})
+                    if teacher in results.keys():
+                        results[teacher].append(texts)
+                    else:
+                        results.update({teacher: teacher_results})
                 teacher_raw = tr.text.strip()
                 teacher = re.search(r"(^.).* (.*)", teacher_raw)
                 if teacher:
@@ -198,6 +201,13 @@ class Backend:
 
             group_nr = -1
             teacher_results.append((nr, weekday, info, group_nr))
+            if subs_teacher.strip():
+                key = " ".join(re.search(r"^(.).* (.*)", subs_teacher).groups())
+                value = (nr, weekday, info, group_nr)
+                if key in results.keys():
+                    results[key].append(value)
+                else:
+                    results.update({key: [value]})
         self.teacher_subs_list = results
         return results
 
@@ -392,8 +402,6 @@ def class_obj(name=None, tn=None, tu=None, cn=None, cu=None, group=None, ctn=Non
 def get_themes():
     if not os.path.exists("/app/conf/themes.txt"):
         return ["#9a3d24", "#4abfec", "#643caf", "#4db234", "#c5a217"]
-        # os.makedirs(os.path.dirname(".conf/"), exist_ok=True)
-        # shutil.copy("static/media/themes.txt", ".conf/")
     return [code.strip() for code in open("conf/themes.txt", "r").readlines()]
 
 
