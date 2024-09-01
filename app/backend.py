@@ -218,7 +218,8 @@ class Backend:
                 continue
             if tr.text.strip() != "":
                 temp.append([td.text.strip() for td in tds])
-        results.update({key: temp})
+        if key is not None:
+            results.update({key: temp})
         return text.strip().split("\n"), results
 
     def get_class_timetable(self, url):

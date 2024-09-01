@@ -30,20 +30,24 @@
                     <p>{{ repl }}</p>
                 {% endfor %}
             </div>
-            {% for repl in motd_info[1] %}
-                <table>
-                    <tr>
-                        <th colspan="4">{{ repl[0] }}</th>
-                    </tr>
-                    {% for tr in repl[1] %}
+            {% if motd_info[1] %}
+                {% for repl in motd_info[1] %}
+                    <table>
                         <tr>
-                            {% for td in tr %}
-                                <td>{{ td }}</td>
-                            {% endfor %}
+                            <th colspan="4">{{ repl[0] }}</th>
                         </tr>
-                    {% endfor %}
-                </table>
-            {% endfor %}
+                        {% for tr in repl[1] %}
+                            <tr>
+                                {% for td in tr %}
+                                    <td>{{ td }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endfor %}
+            {% else %}
+                <p id="subs-empty-info">Brak zastępstw w danym dniu! Ostatnia&nbsp;aktualizacja: {{ change_date.strftime("%d.%m.%Y %H:%M") }}</p>
+            {% endif %}
             {% include "footer.html" %}
         </div>
     </div>
