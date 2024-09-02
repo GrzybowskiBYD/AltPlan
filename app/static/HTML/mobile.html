@@ -17,6 +17,7 @@
     <style></style>
     <script>
         const r = document.querySelector(':root');
+        const substitutions = JSON.parse('{{replacements|tojson}}');
         const view_count = 4;
         r.style.setProperty("--container-width", `${view_count * 100}vw`)
         const nav_width = 5 + 7 * (view_count - 1)
