@@ -191,18 +191,24 @@ class Backend:
             else:
                 weekday = self.weekday
 
-            regex = re.search(r" - (.*)", texts[1])
+            regex = re.search(r"(.*:?) - (.*)", texts[1])
 
             subs_teacher = texts[2] if texts[2] else ""
             comments = texts[3] if texts[3] else ""
-            classroom = regex.group(1) if regex.group(1) else ""
+            classroom = regex.group(2) if regex.group(2) else ""
+            class_id = regex.group(1).replace(" ", "") if regex.group(1) else ""
 
             info = f"{subs_teacher} {f"({comments}) " if comments else ""}{classroom}".strip()
 
-            group_nr = -1
+            group_nr = 0
             teacher_results.append((nr, weekday, info, group_nr))
             if subs_teacher.strip():
                 key = " ".join(re.search(r"^(.).* (.*)", subs_teacher).groups())
+                # class_link = [i for i, t in enumerate(list(self.nav_list["classes"].values())) if class_id in t][0] if class_id in self.nav_list["classes"].values() else ""
+                nav_list = [(x[1], x[0]) for x in self.nav_list["classes"].items()]
+                class_link = [x[1] for x in nav_list if class_id in x[0]]
+                class_link = class_link[0] if class_link else ""
+                info = f"{f"<a href='{class_link}'>{class_id}</a> " if class_id else ""}{f"({comments}) " if comments else ""}{classroom}".strip()
                 value = (nr, weekday, info, group_nr)
                 if key in results.keys():
                     results[key].append(value)

@@ -23,11 +23,22 @@
     </div>
 </header>
 <div id="days">
-    {% for i in range(5) %}
+    {% for column_index in range(5) %}
         <div class="day">
             {% for row in plan %}
-                {%- if row[i + 2][0]["name"] is not none %}
-                    {%- for group in row[i + 2] %}
+                {% set row_index = loop.index0 %}
+                {% set ns = namespace(show=false) %}
+                {% for sub in replacements %}
+                    {% if sub[0] == row_index and sub[1] == column_index %}
+                        {% set ns.show = true %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                {%- if (row[column_index + 2][0]["name"] is not none) or ns.show %}
+                    {%- for group in row[column_index + 2] %}
+                        {% if group["name"] is none %}
+                            {% set group = {"name": none, "teacher": { "name": none, "url": none}, "classroom": {"name": none, "url": none}, "class": { "name": none, "url": none }, "group": "0", "group-count": "0"} %}
+                        {% endif %}
                         <div class="lesson gr{{ group["group"] }} gr{{ group["group"] }}-{{ group["group-count"] }} r{{ row[0][0]["name"] }}">
                             <span class="number">{{ row[0][0]["name"] }}</span>
                             <div class="hours darker-text">
@@ -35,7 +46,7 @@
                                 <span>{{ row[1][0]["name"][6:] }}</span>
                             </div>
                             <div class="flex-column">
-                                <span class="subject">{{ group["name"] }}</span>
+                                <span class="subject">{{ group["name"] if group["name"] is not none else "" }}</span>
                                 <span class="teacher_classroom">
                                         {%- if group["class"]["name"] is not none %}
                                             <a {{ ("href=" + group["class"]["url"]) if group["class"]["url"] is not none else "" }}>{{ group["class"]["name"] }}</a>

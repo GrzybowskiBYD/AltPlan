@@ -119,7 +119,7 @@
     function set_subs(row, column, text, group) {
         let temp;
         if (leave_old) {
-            if (group !== -1) {
+            if (group !== 0) {
                 const group_obj = ls[5 * row + column].querySelector(`.gr${group}`);
                 if (!group_obj) return 0;
                 temp = `<s>${group_obj.innerHTML}</s><div class="repl">${text}</div>`;

@@ -11,6 +11,7 @@ from __version__ import __version__
 
 app = Flask(__name__, template_folder="./static/HTML")
 app.secret_key = secrets.token_hex()
+app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 
 zs = Backend()
 
@@ -75,7 +76,7 @@ def desktop(class_url=None, file="main.html"):
 @app.route("/m/<string:class_url>")
 def mobile(class_url=None, file="mobile.html"):
     if class_url:
-        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] == "o")
+        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] in ("o", "n"))
     return redirect("/m/o1")
 
 
