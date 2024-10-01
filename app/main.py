@@ -60,6 +60,7 @@ def send_response(prefix, timetable_id, file, repl=False):
                                          change_date=zs.change_date,
                                          color_schemes=get_themes(),
                                          backgrounds=backgrounds,
+                                         date=zs.date,
                                          app_version=__version__))
 
 
