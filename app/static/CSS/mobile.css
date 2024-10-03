@@ -31,7 +31,6 @@ body {
     height: 100%;
     overflow: hidden;
     translate: var(--negative_move) 0;
-    transition: translate 300ms ease-in-out;
 }
 
 .view {
@@ -76,6 +75,7 @@ body {
 }
 
 #plan_select, h2 {
+    height: 3.5rem;
     margin: 0;
     border: 0;
     font-size: 2.5rem;
