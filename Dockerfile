@@ -35,4 +35,7 @@ RUN ln -s /var/webdav /app/conf
 
 RUN a2enmod dav dav_fs auth_digest proxy_http
 
+RUN apt-get install -y locales && locale-gen pl_PL.UTF-8
+ENV LC_ALL=pl_PL.UTF-8
+
 CMD service apache2 start && service cron start && uwsgi --ini /app/wsgi.ini

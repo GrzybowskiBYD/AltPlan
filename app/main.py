@@ -12,7 +12,7 @@ from __version__ import __version__
 app = Flask(__name__, template_folder="./static/HTML")
 app.secret_key = secrets.token_hex()
 app.jinja_env.add_extension("jinja2.ext.loopcontrols")
-locale.setlocale(locale.LC_ALL, 'pl')
+locale.setlocale(locale.LC_ALL, 'pl_PL.UTF-8')
 
 zs = Backend()
 
