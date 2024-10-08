@@ -1,6 +1,6 @@
 import secrets
 import os
-
+import locale
 
 from flask import Flask, render_template, redirect, make_response, send_from_directory, request
 
@@ -12,6 +12,7 @@ from __version__ import __version__
 app = Flask(__name__, template_folder="./static/HTML")
 app.secret_key = secrets.token_hex()
 app.jinja_env.add_extension("jinja2.ext.loopcontrols")
+locale.setlocale(locale.LC_ALL, 'pl')
 
 zs = Backend()
 

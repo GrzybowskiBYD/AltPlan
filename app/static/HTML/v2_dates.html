@@ -3,7 +3,10 @@
     <h3>Daty:</h3>
     <div class="footer-date">
         <p style="text-align: left">Zastępstwa na: </p>
-        <p style="text-align: right">{{ date.strftime("%d.%m.%Y") }}</p>
+        <p style="text-align: right; display: flex; flex-direction: column">
+            <span>{{ date.strftime("%d.%m.%Y") }}</span>
+            <span>({{ date.strftime("%A") }})</span>
+        </p>
     </div>
     <div class="footer-date">
         <p style="text-align: left">Ostatnia zmiana w zastępstwach: </p>
