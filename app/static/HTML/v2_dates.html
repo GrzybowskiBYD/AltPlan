@@ -5,7 +5,7 @@
         <p style="text-align: left">Zastępstwa na: </p>
         <p style="text-align: right; display: flex; flex-direction: column">
             <span>{{ date.strftime("%d.%m.%Y") }}</span>
-            <span>({{ date.strftime("%A") }})</span>
+            <span>({{ ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"][date.weekday()] }})</span>
         </p>
     </div>
     <div class="footer-date">
