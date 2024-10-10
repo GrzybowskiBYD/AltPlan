@@ -27,7 +27,7 @@
         <div id="content">
             <div id="motd">
                 {% for repl in motd_info[0] %}
-                    <p>{{ repl }}</p>
+                    <p>{{ repl | safe }}</p>
                 {% endfor %}
             </div>
             {% if motd_info[1] %}

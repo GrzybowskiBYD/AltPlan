@@ -34,7 +34,7 @@ class Backend:
         self.class_cache = {}
         self.teacher_cache = {}
         self.teacher_subs_list = {}
-        self.substitutions_html = ""
+        self.substitutions_html = bs4.BeautifulSoup()
 
         self.refresh()
         self.subs_hash_old = self.subs_hash
@@ -219,21 +219,31 @@ class Backend:
 
     def get_html_subs(self):
         bs = self.substitutions_html
-        trs = bs.find_all("tr")
-        text = trs[0].text
+        tr_tags = bs.findAll("tr")
+        text_temp = []
+        for element in tr_tags[0].find("nobr").children:
+            # Don't remove <a> tags
+            if element.name == "a":
+                element.attrs["target"] = "_blank"  # Set target = _blank for all links
+                text_temp.append(str(element))
+            # Convert other tags to text
+            else:
+                text_temp.append(element.text)
+        text = "".join(text_temp)
+
         key = None
         temp = []
         results = {}
-        for tr in trs:
-            tds = [c for c in tr.children if isinstance(c, bs4.element.Tag)]
-            if "st1" in tds[0]["class"]:
+        for tr in tr_tags:
+            td_tags = [tag for tag in tr.children if isinstance(tag, bs4.element.Tag)]  # Only get proper tags of type bs4.element.Tag (not "\n")
+            if "st1" in td_tags[0]["class"]:
                 if key is not None:
                     results.update({key: temp})
-                key = tds[0].text.strip()
+                key = td_tags[0].text.strip()
                 temp = []
                 continue
             if tr.text.strip() != "":
-                temp.append([td.text.strip() for td in tds])
+                temp.append([td.text.strip() for td in td_tags])
         if key is not None:
             results.update({key: temp})
         return text.strip().split("\n"), results
