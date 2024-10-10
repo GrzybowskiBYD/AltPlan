@@ -9,7 +9,7 @@
     {% if motd %}
     <h3>Informacje dot. zastępstw:</h3>
     {% for line in motd_info[0] %}
-        <p>{{ line }}</p>
+        <p>{{ line | safe }}</p>
     {% endfor %}
     {% else %}
         <h3>Brak informacji dot. zastępstw!</h3>
