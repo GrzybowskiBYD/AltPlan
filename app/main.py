@@ -22,8 +22,7 @@ app.config['UPLOAD_FOLDER'] = "conf/backgrounds"
 def send_response(prefix, timetable_id, file, repl=False):
     temp = zs.nav_list
 
-    # Todo apply UrlObj from URLNormalize
-    url = f"plany/{prefix}{timetable_id}.html"
+    url = f"{prefix}{timetable_id}"
     plan = zs.get_class_timetable(url)
     if repl:
         try:
@@ -33,7 +32,6 @@ def send_response(prefix, timetable_id, file, repl=False):
                 replacements = zs.get_teacher_subs(UrlObj(f"{prefix}{timetable_id}"))
             else:
                 replacements = ""
-        # Todo
         except ValueError:
             replacements = ""
     else:
@@ -51,8 +49,7 @@ def send_response(prefix, timetable_id, file, repl=False):
                                          plan=plan,
                                          current_class=zs.url_to_name(url),
                                          replacements=replacements,
-                                         # Todo apply UrlObj from URLNormalize
-                                         url=f"{prefix}{timetable_id}",
+                                         url=UrlObj(f"{prefix}{timetable_id}"),
                                          weekday=zs.weekday,
                                          lucky_numbers=zs.get_lucky_number(),
                                          info=zs.info,

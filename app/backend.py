@@ -52,6 +52,14 @@ class Backend:
         r = urllib.request.urlopen(self.hash_url)
         return hashlib.sha224(r.read()).hexdigest()
 
+    @property
+    def nav_list_keys(self):
+        temp_list = []
+        temp_list += list(self.nav_list["classes"].keys())
+        temp_list += list(self.nav_list["teachers"].keys())
+        temp_list += list(self.nav_list["classrooms"].keys())
+        return temp_list
+
     def refresh(self):
         self.nav_list = {"classes": {}, "teachers": {}, "classrooms": {}}
         r = urllib.request.urlopen(self.subs_url)
@@ -248,7 +256,7 @@ class Backend:
             results.update({key: temp})
         return text.strip().split("\n"), results
 
-    def get_class_timetable(self, url):
+    def get_class_timetable(self, url: UrlObj):
         url = self.url_obj(url).id
         if url in self.class_cache.keys():
             return self.class_cache[url]
