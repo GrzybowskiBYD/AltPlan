@@ -1,9 +1,9 @@
 :root {
     --background: none;
-    --negative: "#000";
-    --main-color: "rgb(154, 61, 36)";
-    --theme-background: "rgb(51, 51, 51)";
-    --theme-wght: 300;
-    --container-width: 100vw;
-    --nav-width: 19rem;
+    --negative: none;
+    --main-color: none;
+    --theme-background: none;
+    --theme-wght: none;
+    --container-width: none;
+    --nav-width: none;
 }

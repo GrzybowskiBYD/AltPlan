@@ -33,7 +33,7 @@ function refresh_colors() {
     else if (preffered_theme === "light") dark = false;
     else dark = darkMatchMedia.matches;
     if (!color_scheme) {
-        color_scheme = "rgb(154, 61, 36)"
+        color_scheme = colors[0]
     }
     if (background) r.style.setProperty("--background", `url(/backgrounds/${background})`);
     else r.style.setProperty("--background", "none");
@@ -45,11 +45,6 @@ function refresh_colors() {
         r.style.setProperty("--theme-wght", 300);
         const meta = document.getElementById("safari-theme-color")
         meta.content = color_scheme;
-        // let meta = document.createElement('meta');
-        // meta.name = "theme-color";
-        // meta.content = color_scheme;
-        // meta.media = "(prefers-color-scheme: dark)";
-        // document.getElementsByTagName('head')[0].appendChild(meta);
     }
     else {
         r.style.setProperty("--main-color", color_scheme);
