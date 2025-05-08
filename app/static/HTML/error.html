@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta id="safari-theme-color" name="theme-color" content="#000000">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ error_data.code }} | Plan ZSE stworzony przez @grzybowski_byd</title>
+    <meta name="color-scheme" content="dark light">
+
+    <!-- LOCAL -->
+    <script>const r = document.querySelector(':root');</script>
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <link rel="stylesheet" href="/static/CSS/error.css">
+    <script src="/static/JS/load_cookies.js"></script>
+
+    <!-- REMOTE -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div id="main">
+        <div id="error-box">
+            <span id="error-code">
+                {{ error_data.code }}
+            </span>
+            <span id="error-desc">
+                {{ error_data.description }}
+            </span>
+        </div>
+    </div>
+</body>
+</html>

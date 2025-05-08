@@ -1,0 +1,26 @@
+#main {
+    background-color: var(--theme-background);
+}
+#error-box {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--main-color);
+    width: 630px;
+    height: 370px;
+    margin: auto auto;
+    border-radius: 70px;
+    padding: 70px;
+    box-shadow: 18px 18px 0 0 rgba(0,0,0,0.5);
+    -webkit-box-shadow: 18px 18px 0 0 rgba(0,0,0,0.5);
+    -moz-box-shadow: 18px 18px 0 0 rgba(0,0,0,0.5);
+}
+#error-code {
+    font-size: 250px;
+    display: block;
+    color: var(--main-color);
+    filter: brightness(50%);
+    margin: 0 auto;
+}
+#error-desc {
+    text-align: center;
+}

@@ -11,14 +11,12 @@
 
     <!-- LOCAL -->
     <script>const r = document.querySelector(':root');</script>
-    {#    <link rel="stylesheet" href="/static/CSS/theme.css">#}
     <link rel="stylesheet" href="/static/CSS/header_footer.css">
     <link rel="stylesheet" href="/static/CSS/style.css">
     <link rel="stylesheet" href="/static/CSS/nav.css">
     <link rel="stylesheet" href="/static/CSS/timetable.css">
     <link rel="stylesheet" href="/static/CSS/temporary.css">
     <script src="/static/JS/load_cookies.js"></script>
-    {#    <script src="/static/JS/load_cookies.js"></script>#}
 
     <!-- REMOTE -->
     <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
@@ -49,7 +47,7 @@
                     <p>Szczęśliwy numerek:</p>
                     <p>{{ lucky_numbers }}</p>
                 </div>
-                <a id="settings-button" href="/ustawienia?{{ url }}"><i class="material-icons">settings</i></a>
+                <a id="settings-button" href="/ustawienia?r={{ url }}"><i class="material-icons">settings</i></a>
             </div>
         </header>
         <div id="content">

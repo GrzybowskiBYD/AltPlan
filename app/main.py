@@ -2,7 +2,7 @@ import secrets
 import os
 import locale
 
-from flask import Flask, render_template, redirect, make_response, send_from_directory, request
+from flask import Flask, render_template, redirect, make_response, send_from_directory, request, abort
 
 from backend import Backend, get_themes
 from URLNormalize import UrlObj
@@ -21,6 +21,7 @@ app.config['UPLOAD_FOLDER'] = "conf/backgrounds"
 
 def send_response(prefix, timetable_id, file, repl=False):
     temp = zs.nav_list
+
     # Todo apply UrlObj from URLNormalize
     url = f"plany/{prefix}{timetable_id}.html"
     plan = zs.get_class_timetable(url)
@@ -32,6 +33,7 @@ def send_response(prefix, timetable_id, file, repl=False):
                 replacements = zs.get_teacher_subs(UrlObj(f"{prefix}{timetable_id}"))
             else:
                 replacements = ""
+        # Todo
         except ValueError:
             replacements = ""
     else:
@@ -68,7 +70,12 @@ def send_response(prefix, timetable_id, file, repl=False):
 @app.route("/<string:class_url>")
 def desktop(class_url=None, file="main.html"):
     if class_url:
-        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] in ("o", "n"))
+        prefix = class_url[0]
+        object_id = class_url[1:]
+        if class_url in zs.nav_list_keys:
+            return send_response(prefix, object_id, file, repl=prefix in ("o", "n"))
+        else:
+            abort(404)
     return redirect("/o1")
 
 
@@ -77,7 +84,12 @@ def desktop(class_url=None, file="main.html"):
 @app.route("/m/<string:class_url>")
 def mobile(class_url=None, file="mobile.html"):
     if class_url:
-        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] in ("o", "n"))
+        if class_url in zs.nav_list:
+            prefix = class_url[0]
+            object_id = class_url[1:]
+            return send_response(prefix, object_id, file, repl=prefix in ("o", "n"))
+        else:
+            abort(404)
     return redirect("/m/o1")
 
 
@@ -86,33 +98,49 @@ def mobile(class_url=None, file="mobile.html"):
 @app.route("/basic/<string:class_url>")
 def basic(class_url=None, file="basic.html"):
     if class_url:
-        return send_response(class_url[0], class_url[1:], file, repl=class_url[0] == "o")
+        prefix = class_url[0]
+        object_id = class_url[1:]
+        return send_response(prefix, object_id, file, repl=object_id == "o")
     return redirect("/basic/o1")
 
 
 @app.route("/m/refresh", methods=["GET", "POST"])
 @app.route("/refresh", methods=["GET", "POST"])
 def refresh():
-    suffix = request.args["plan"]
     zs.refresh()
-    return redirect(f"/m/{suffix}" if "/m" in request.path else f"/{suffix}")
+
+    if "r" in request.args.keys():
+        redirect_destination = request.args["r"]
+    else:
+        redirect_destination = "o1"
+
+    if "/m" in request.path:
+        return redirect(f"/m/{redirect_destination}")
+    return redirect(f"/{redirect_destination}")
 
 
 @app.route("/check_hash")
-def check_hash():
+def check_hash_for_change():
     zs.heartbeat()
     return redirect("/", 301)
 
 
 @app.route("/ustawienia", methods=["GET", "POST"])
 def settings(file="settings.html"):
-    suffix = [x for x in request.args.keys()][0] if len(request.args) > 0 else None
+    if "r" in request.args.keys():
+        redirect_destination = request.args["r"]
+    else:
+        return redirect("/ustawienia?r=o1", 301)
+
     if os.path.exists("conf/backgrounds"):
         backgrounds = [file for file in [f for f in os.listdir("conf/backgrounds") if os.path.isfile(os.path.join("conf/backgrounds", f))]]
+        app.logger.error("ta" + str(backgrounds))
     else:
+        app.logger.error("nie")
         backgrounds = []
+
     response = make_response(render_template(template_name_or_list=file,
-                                             suffix=suffix,
+                                             redirect_destination=redirect_destination,
                                              color_schemes=get_themes(),
                                              backgrounds=backgrounds,
                                              app_version=__version__))
@@ -152,6 +180,17 @@ def ln():
 @app.route('/backgrounds/<name>')
 def download_file(name):
     return send_from_directory(app.config["UPLOAD_FOLDER"], name)
+
+
+@app.route('/error/<int:code>')
+def error(code):
+    abort(int(code))
+
+
+# ERROR HANDLERS #
+@app.errorhandler(Exception)
+def page_not_found(e):
+    return make_response(render_template(template_name_or_list="error.html", error_data=e), e.code)
 
 
 if __name__ == "__main__":
