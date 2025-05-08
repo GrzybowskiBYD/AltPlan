@@ -424,9 +424,19 @@ def class_obj(name=None, tn=None, tu=None, cn=None, cu=None, group=None, ctn=Non
 
 
 def get_themes():
+    return ["#be5140", "#4abfec", "#7b5dec", "#40ac55", "#caa031"]
     if not os.path.exists("/app/conf/themes.txt"):
         return ["#be5140", "#4abfec", "#7b5dec", "#40ac55", "#caa031"]
     return [code.strip() for code in open("conf/themes.txt", "r").readlines()]
+
+
+def get_backgrounds():
+    if os.path.exists("conf/backgrounds"):
+        backgrounds = [file for file in [f for f in os.listdir("conf/backgrounds") if
+                                         os.path.isfile(os.path.join("conf/backgrounds", f))]]
+    else:
+        backgrounds = []
+    return backgrounds
 
 
 def clamp_datetime(value, start, end, tz=pytz.timezone("Europe/Warsaw")):

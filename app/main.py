@@ -4,7 +4,7 @@ import locale
 
 from flask import Flask, render_template, redirect, make_response, send_from_directory, request, abort
 
-from backend import Backend, get_themes
+from backend import Backend, get_themes, get_backgrounds
 from URLNormalize import UrlObj
 from __version__ import __version__
 
@@ -36,11 +36,6 @@ def send_response(prefix, timetable_id, file, repl=False):
             replacements = ""
     else:
         replacements = ""
-    if os.path.exists("conf/backgrounds"):
-        backgrounds = [file for file in [f for f in os.listdir("conf/backgrounds") if
-                                         os.path.isfile(os.path.join("conf/backgrounds", f))]]
-    else:
-        backgrounds = []
     html_repl = zs.get_html_subs()
     return make_response(render_template(template_name_or_list=file,
                                          parse_classes=temp["classes"].items(),
@@ -57,9 +52,10 @@ def send_response(prefix, timetable_id, file, repl=False):
                                          motd_info=(html_repl[0], html_repl[1].items()),
                                          hide_mobile_groups=prefix == "o",
                                          change_date=zs.change_date,
-                                         color_schemes=get_themes(),
-                                         backgrounds=backgrounds,
                                          date=zs.date,
+
+                                         color_schemes=get_themes(),
+                                         backgrounds=get_backgrounds(),
                                          app_version=__version__))
 
 
@@ -129,17 +125,10 @@ def settings(file="settings.html"):
     else:
         return redirect("/ustawienia?r=o1", 301)
 
-    if os.path.exists("conf/backgrounds"):
-        backgrounds = [file for file in [f for f in os.listdir("conf/backgrounds") if os.path.isfile(os.path.join("conf/backgrounds", f))]]
-        app.logger.error("ta" + str(backgrounds))
-    else:
-        app.logger.error("nie")
-        backgrounds = []
-
     response = make_response(render_template(template_name_or_list=file,
                                              redirect_destination=redirect_destination,
                                              color_schemes=get_themes(),
-                                             backgrounds=backgrounds,
+                                             backgrounds=get_backgrounds(),
                                              app_version=__version__))
     return response
 
@@ -187,7 +176,11 @@ def error(code):
 # ERROR HANDLERS #
 @app.errorhandler(Exception)
 def page_not_found(e):
-    return make_response(render_template(template_name_or_list="error.html", error_data=e), e.code)
+    return make_response(render_template(template_name_or_list="error.html", error_data=e,
+                                         color_schemes=get_themes(),
+                                         backgrounds=get_backgrounds(),
+                                         app_version=__version__
+                                         ), e.code)
 
 
 if __name__ == "__main__":
