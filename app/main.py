@@ -1,6 +1,5 @@
 import secrets
 import os
-import locale
 
 from flask import Flask, render_template, redirect, make_response, send_from_directory, request, abort
 
