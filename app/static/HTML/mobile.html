@@ -12,6 +12,7 @@
     <script>
         let weekday = parseInt({{ weekday }});
     </script>
+    <script>const colors = JSON.parse('{{ color_schemes|tojson }}')</script>
     <!-- LOCAL -->
     <link href='{{ url_for("static", filename="CSS/mobile.css") }}' rel="stylesheet">
     <style></style>

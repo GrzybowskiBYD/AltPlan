@@ -76,7 +76,7 @@ def desktop(class_url=None, file="main.html"):
 @app.route("/m/<string:class_url>")
 def mobile(class_url=None, file="mobile.html"):
     if class_url:
-        if class_url in zs.nav_list:
+        if class_url in zs.nav_list_keys:
             prefix = class_url[0]
             object_id = class_url[1:]
             return send_response(prefix, object_id, file, repl=prefix in ("o", "n"))

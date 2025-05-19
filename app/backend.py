@@ -96,7 +96,7 @@ class Backend:
         self.weekday = -1
         r = urllib.request.urlopen(self.subs_url)
         bs = bs4.BeautifulSoup(r, "html.parser")
-        regex = re.findall(r"\d\d.\d\d.\d\d\d\d", bs.find("nobr").text)
+        regex = re.findall(r"\d\d\.\d\d\.\d\d\d\d", bs.find("nobr").text)
         if not regex:
             print(f"WARNING! Date not found, setting to 0 ({self.weekdays[0]})")
             self.weekday = 0
