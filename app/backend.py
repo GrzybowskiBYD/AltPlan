@@ -344,10 +344,11 @@ class Backend:
         if os.path.exists("conf/lucky_numbers.txt"):
             with open("conf/lucky_numbers.txt") as f:
                 for line in f:
-                    obj = line.strip().split(" ")
-                    date_obj = datetime.datetime.strptime(obj[0].strip(), "%d.%m.%Y")
-                    if date_obj == self.date:
-                        return ",".join(obj[1:])
+                    regex = re.match(r"(\d{1,2}.\d{1,2}.\d{4})\s+((?:\d+\s*)+)", line)
+                    if regex:
+                        date_obj = datetime.datetime.strptime(regex[1], "%d.%m.%Y")
+                        if date_obj == self.date:
+                            return ",".join(regex[2].split())
                 return "Brak"
         return "Brak"
 
